@@ -101,5 +101,7 @@ char				*ft_str_gather(char const **s, char c);
 t_list				*ft_lstsortcontent(t_list *list);
 void				ft_inoder(t_btree *tree, void (*f)(void *));
 void				ft_preorder(t_btree *tree, void (*f)(void *));
+char				*ft_addletter(char *string, char letter);
+char				*ft_strjoin_freemem(char **s1, char **s2);
 
 #endif

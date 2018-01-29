@@ -20,7 +20,6 @@ all: $(NAME)
 
 $(NAME):
 	cd libft && make re && cp libft.a ../ && cd .. && mv libft.a $(NAME_L)
-	$(CC) $(FLAGS) -o $(NAME) $(SRC)
 
 comp:
 	$(CC) $(FLAGS) -o $(NAME) $(SRC) $(NAME_L)

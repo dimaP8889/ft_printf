@@ -25,7 +25,7 @@ SRC = ./ft_atoi.c ./ft_bzero.c ./ft_isalnum.c ./ft_isalpha.c ./ft_isascii.c \
 ./ft_strnew.c ./ft_strnstr.c ./ft_strrchr.c ./ft_strsplit.c ./ft_strstr.c \
 ./ft_strsub.c ./ft_strtrim.c ./ft_tolower.c ./ft_toupper.c ./ft_inoder.c \
 ./ft_lstaddlast.c ./ft_lstsortcontent.c ./ft_preorder.c ./ft_str_gather.c \
-./get_next_line.c 
+./get_next_line.c ./ft_addletter.c ./ft_strjoin_freemem.c
 
 SRCO = ./ft_atoi.o ./ft_bzero.o ./ft_isalnum.o ./ft_isalpha.o ./ft_isascii.o \
 ./ft_isdigit.o ./ft_isprint.o ./ft_itoa.o ./ft_lstadd.o ./ft_lstdel.o \
@@ -40,7 +40,7 @@ SRCO = ./ft_atoi.o ./ft_bzero.o ./ft_isalnum.o ./ft_isalpha.o ./ft_isascii.o \
 ./ft_strnew.o ./ft_strnstr.o ./ft_strrchr.o ./ft_strsplit.o ./ft_strstr.o \
 ./ft_strsub.o ./ft_strtrim.o ./ft_tolower.o ./ft_toupper.o ./ft_inoder.o \
 ./ft_lstaddlast.o ./ft_lstsortcontent.o ./ft_preorder.o ./ft_str_gather.o \
-./get_next_line.o 
+./get_next_line.o ./ft_addletter.o ./ft_strjoin_freemem.o
 
 CC = gcc
 
