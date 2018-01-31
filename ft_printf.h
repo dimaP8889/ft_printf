@@ -10,7 +10,7 @@
 # define FLAGS "#0-+ \0"
 # define SIZES "hljz\0"
 
-typedef struct	s_printf
+typedef struct			s_printf
 {
 	char 				*pars;
 	int					width;
@@ -22,10 +22,13 @@ typedef struct	s_printf
 	char				*convers;
 	char				*print;
 	int					found_perc;
+	void				*out;
 	struct	s_printf	*next;
-}				t_printf;
+}						t_printf;
 
 int		ft_printf(const char *string, ...);
 void	ft_find_params(const char *string, t_printf *params);
+void	ft_converse(t_printf *params, void *string);
+char	*ft_strjoin_free(char **s1, char const *s2);
 
 #endif

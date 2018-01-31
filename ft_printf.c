@@ -6,8 +6,8 @@ void	ft_free(t_printf *list)
 	{
 		while (list->next)
 		{
-			printf("print: %s\n", list->print);
-			printf("pars: %s\n", list->pars);
+			//printf("print: %s\n", list->print);
+			//printf("pars: %s\n", list->pars);
 			free(list->pars);
 			free(list->print);
 			free(list->flag);
@@ -15,6 +15,7 @@ void	ft_free(t_printf *list)
 			free(list->precision_char);
 			free(list->size);
 			free(list->convers);
+			free(list->out);
 			free(list);
 			list = list->next;
 		}
@@ -31,14 +32,18 @@ void	ft_free(t_printf *list)
 int		ft_printf(const char *string, ...)
 {
 	va_list 		ap;
-	char			*s;
+	void			*s;
 	t_printf		*params;
 	t_printf		*list;
 
 	params = (t_printf *)malloc(sizeof(t_printf));
+	list = params;
 	ft_find_params(string, params);
 	va_start(ap, string);
-	s = va_arg(ap, char*);
+	s = va_arg(ap, void*);
+	ft_converse(list, s);
+	//printf("%c\n", params->convers[0]);
+	//ft_converse(params, s);
 	va_end(ap);
 	ft_free(params);
 	return (0);
@@ -46,5 +51,5 @@ int		ft_printf(const char *string, ...)
 
 int		main(void)
 {
-	ft_printf("HELLO+-39%-+%sciucbwbui457", "lol", "ajajak");
+	ft_printf("HELLO+-39%34.0sciucbwbui457", "lol\n", "ajajak");
 }

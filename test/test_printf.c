@@ -11,7 +11,7 @@ int		ft_printf(const char *string, ...)
 	//ft_find_params(string, params);
 	va_start(ap, string);
 	s = va_arg(ap, void*);
-	printf("%i\n", (int)s);
+	printf("%7s\n", (char *)s);
 	// s = va_arg(ap, char*);
 	// printf("%s\n", s);
 	// s = va_arg(ap, char*);
@@ -23,5 +23,5 @@ int		ft_printf(const char *string, ...)
 
 int		main(void)
 {
-	ft_printf("HELLO+-39%-+%sciucbwbui457", 13 , "ajajak");
+	ft_printf("HELLO+-39%.4sciucbwbui457", "ivgyigxevy" , "ajajak");
 }
