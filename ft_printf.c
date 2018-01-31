@@ -1,28 +1,50 @@
 #include "ft_printf.h"
 
+void	ft_free(t_printf *list)
+{
+	if (list->found_perc == 1)
+	{
+		while (list->next)
+		{
+			printf("print: %s\n", list->print);
+			printf("pars: %s\n", list->pars);
+			free(list->pars);
+			free(list->print);
+			free(list->flag);
+			free(list->width_char);
+			free(list->precision_char);
+			free(list->size);
+			free(list->convers);
+			free(list);
+			list = list->next;
+		}
+	}
+	else
+	{
+		printf("print: %s\n", list->print);
+		free(list->print);
+		free(list);
+	}
+	system("leaks ft_printf");
+}
+
 int		ft_printf(const char *string, ...)
 {
-	va_list ap;
-	char	*s;
+	va_list 		ap;
+	char			*s;
+	t_printf		*params;
+	t_printf		*list;
 
-	ft_find_params(string);
+	params = (t_printf *)malloc(sizeof(t_printf));
+	ft_find_params(string, params);
 	va_start(ap, string);
 	s = va_arg(ap, char*);
-	// printf("%s\n", string);
-	// while (s)
-	// {
-	// 	printf("%s\n", s);
-	// 	s = va_arg(ap, char*);
-	// }
 	va_end(ap);
-	// printf("%s\n", s);
-	// s = va_arg(ap, char*);
-	// printf("%s\n", s);
-	// va_end(ap);
+	ft_free(params);
 	return (0);
 }
 
 int		main(void)
 {
-	ft_printf("HELLO%+-394.898hhsciucbwbui%hhs", "lol", "ajajak");
+	ft_printf("HELLO+-39%-+%sciucbwbui457", "lol", "ajajak");
 }

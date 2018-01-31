@@ -86,8 +86,7 @@ char	*ft_find_size(const char **string, t_printf *params)
 
 char	*ft_find_convers(const char **string, t_printf *params)
 {
-	params->convers = (char *)malloc(sizeof(char));
-	params->convers = ft_memset((void *)params->convers, '\0', 1);
+	params->convers = ft_strnew(0);
 	if (ft_strchr(CONVERS, **string))
 	{
 		params->convers = ft_addletter(params->convers, **string);
@@ -101,13 +100,11 @@ char	*ft_pars(const char **string, t_printf *params)
 	params->print = ft_strnew(0);
 	while (**string != '%')
 	{
-		if (!(**string))
-			return (NULL);
 		params->print = ft_addletter(params->print, **string);
 		(*string)++;
 	}
 	(*string)++;
-	params->pars = (char *)malloc(sizeof(char));
+	params->pars = ft_strnew(0);
 	ft_strcpy(params->pars, "%");
 	params->pars = ft_strjoin_free(&params->pars, ft_find_flag(string, params));
 	params->pars = ft_strjoin_free(&params->pars, ft_find_width(string, params));
@@ -120,44 +117,27 @@ char	*ft_pars(const char **string, t_printf *params)
 	return (params->pars);
 }
 
-char	ft_find_params(const char *string)
+void	ft_find_params(const char *string, t_printf *params)
 {
-	t_printf		*params;
-	t_printf		*list;
-
-	params = (t_printf *)malloc(sizeof(t_printf));
-	list = params;
+	if (!ft_strchr(string, '%'))
+	{
+		params->print = ft_strnew(0);
+		params->found_perc = 0;
+		while (*string)
+		{
+			params->print = ft_addletter(params->print, *string);
+			(string)++;
+		}
+		return ;
+	}
 	while (ft_strchr(string, '%'))
 	{
+		
 		ft_pars(&string, params);
 		params->next = (t_printf *)malloc(sizeof(t_printf));
+		params->found_perc = 1;
 		params = params->next;
 		params->next = NULL;
 	}
-	while (list->next)
-	{
-		printf("start\n");
-		printf("%s\n", list->print);
-		printf("%s\n", list->pars);
-		printf("%s\n", list->flag);
-		printf("%s\n", list->precision_char);
-		printf("%s\n", list->width_char);
-		printf("%s\n", list->convers);
-		printf("%s\n", list->size);
-		printf("%i\n", list->precision);
-		printf("%i\n", list->width);
-		printf("end\n");
-		printf("\n");
-		free(list->pars);
-		free(list->print);
-		free(list->flag);
-		free(list->width_char);
-		free(list->precision_char);
-		free(list->size);
-		free(list->convers);
-		free(list);
-		list = list->next;
-	}
-	system("leaks ft_printf");
-	return(0);
+	return ;
 }
