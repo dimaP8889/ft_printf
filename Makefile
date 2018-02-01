@@ -14,7 +14,7 @@ NAME = ft_printf
 CC = gcc
 NAME_L = printflibft.a
 FLAGS = -Wall -Wextra -Werror
-SRC = ft_printf.c ft_find_params.c
+SRC = ft_printf.c ft_find_params.c ft_converse.c ft_itoa_base.c
 
 all: $(NAME)
 

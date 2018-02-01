@@ -22,13 +22,29 @@ typedef struct			s_printf
 	char				*convers;
 	char				*print;
 	int					found_perc;
-	void				*out;
+	char				*out;
 	struct	s_printf	*next;
 }						t_printf;
+
+typedef struct			s_size
+{
+	char				hh;
+	unsigned char		u_hh;
+	short				h;
+	unsigned short		u_h;
+	long				l;
+	unsigned long		u_l;
+	long long			ll;
+	unsigned long long	u_ll;
+	intmax_t			j;
+	uintmax_t			u_j;
+	size_t				z;
+}						t_size;
 
 int		ft_printf(const char *string, ...);
 void	ft_find_params(const char *string, t_printf *params);
 void	ft_converse(t_printf *params, void *string);
 char	*ft_strjoin_free(char **s1, char const *s2);
+char	*ft_itoa_base(size_t index, int base, int hex);
 
 #endif

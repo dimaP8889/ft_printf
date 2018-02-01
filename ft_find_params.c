@@ -29,6 +29,7 @@ char	*ft_find_flag(const char **string, t_printf *params)
 	params->flag = ft_strnew(0);
 	while (ft_strchr(FLAGS, **string))
 	{
+		//params->flag = ft_strnew(0);
 		params->flag = ft_addletter(params->flag, **string);
 		(*string)++;
 		if (ft_strchr(params->flag, **string))
@@ -72,6 +73,7 @@ char	*ft_find_size(const char **string, t_printf *params)
 	params->size = ft_strnew(0);
 	if (ft_strchr(SIZES, **string))
 	{
+		//params->size = ft_strnew(0);
 		str = **string;
 		params->size = ft_addletter(params->size, **string);
 		(*string)++;
@@ -89,6 +91,7 @@ char	*ft_find_convers(const char **string, t_printf *params)
 	params->convers = ft_strnew(0);
 	if (ft_strchr(CONVERS, **string))
 	{
+		//params->convers = ft_strnew(0);
 		params->convers = ft_addletter(params->convers, **string);
 		(*string)++;
 	}
