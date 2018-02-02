@@ -51,8 +51,8 @@ int		ft_printf(const char *string, ...)
 
 int		main(void)
 {
-	long long lol;
+	long lol;
 
-	lol = -12345;
-	ft_printf("HELLO+-39%8.15lliciucbwbui457", lol, "ajajak");
+	lol = 8678709709890;
+	ft_printf("%12.21hX", lol);
 }
