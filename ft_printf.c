@@ -16,6 +16,7 @@ void	ft_free(t_printf *list)
 			free(list->size);
 			free(list->convers);
 			free(list->out);
+			free(list->out_num);
 			free(list);
 			list = list->next;
 		}
@@ -51,8 +52,8 @@ int		ft_printf(const char *string, ...)
 
 int		main(void)
 {
-	long lol;
+	char lol;
 
-	lol = 8678709709890;
-	ft_printf("%12.21hX", lol);
+	lol = -99;
+	ft_printf("% 5.3hhi", lol);
 }

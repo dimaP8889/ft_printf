@@ -23,6 +23,7 @@ typedef struct			s_printf
 	char				*print;
 	int					found_perc;
 	char				*out;
+	char				*out_num;
 	struct	s_printf	*next;
 }						t_printf;
 
@@ -32,6 +33,8 @@ typedef struct			s_size
 	unsigned char		u_hh;
 	short				h;
 	unsigned short		u_h;
+	int					i;
+	unsigned int		u_i;
 	long				l;
 	unsigned long		u_l;
 	long long			ll;

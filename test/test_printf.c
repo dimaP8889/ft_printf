@@ -24,9 +24,9 @@
 
 int		main(void)
 {
-	long lol;
+	char lol;
 
-	lol = 8678709709890;
-	printf("%12.21hX", lol);
+	lol = -99;
+	printf("% 5.3hhi", lol);
 	//ft_printf("%28.15hi", lol);
 }
