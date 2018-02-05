@@ -24,9 +24,9 @@
 
 int		main(void)
 {
-	char lol;
+	int lol;
 
-	lol = 125;
-	printf("%#7hhx", lol);
+	lol = -13;
+	printf("% 2i", lol);
 	//ft_printf("%28.15hi", lol);
 }

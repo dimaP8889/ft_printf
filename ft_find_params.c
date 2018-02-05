@@ -120,7 +120,7 @@ char	*ft_pars(const char **string, t_printf *params)
 	return (params->pars);
 }
 
-void	ft_find_params(const char *string, t_printf *params)
+int		ft_find_params(const char *string, t_printf *params)
 {
 	if (!ft_strchr(string, '%'))
 	{
@@ -131,7 +131,8 @@ void	ft_find_params(const char *string, t_printf *params)
 			params->print = ft_addletter(params->print, *string);
 			(string)++;
 		}
-		return ;
+		params->print = ft_addletter(params->print, '\0');
+		return (0);
 	}
 	while (ft_strchr(string, '%'))
 	{
@@ -142,5 +143,5 @@ void	ft_find_params(const char *string, t_printf *params)
 		params = params->next;
 		params->next = NULL;
 	}
-	return ;
+	return (1);
 }

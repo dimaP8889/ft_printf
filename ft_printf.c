@@ -21,11 +21,11 @@ void	ft_free(t_printf *list)
 	}
 	else
 	{
-		printf("print: %s\n", list->print);
+		//printf("print: %s\n", list->print);
 		free(list->print);
 		free(list);
 	}
-	system("leaks ft_printf");
+	//system("leaks ft_printf");
 }
 
 int		ft_printf(const char *string, ...)
@@ -37,7 +37,11 @@ int		ft_printf(const char *string, ...)
 
 	params = (t_printf *)malloc(sizeof(t_printf));
 	list = params;
-	ft_find_params(string, params);
+	if (!ft_find_params(string, params))
+	{
+		ft_putstr(params->print);
+		return (ft_strlen(params->print));
+	}
 	va_start(ap, string);
 	s = va_arg(ap, void*);
 	ft_converse(list, s);
@@ -45,13 +49,13 @@ int		ft_printf(const char *string, ...)
 	//ft_converse(params, s);
 	va_end(ap);
 	ft_free(params);
-	return (0);
+	return (params->return_val);
 }
 
-int		main(void)
-{
-	int lol;
+// int		main(void)
+// {
+// 	int lol;
 
-	lol = -13;
-	ft_printf("% 2i", lol);
-}
+// 	lol = -13;
+// 	ft_printf("% 2i", lol);
+// }

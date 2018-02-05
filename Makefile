@@ -10,16 +10,35 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf
+NAME_L = ft_printf
 CC = gcc
-NAME_L = printflibft.a
+NAME = libftprintf.a
 FLAGS = -Wall -Wextra -Werror
-SRC = ft_printf.c ft_find_params.c ft_converse.c ft_itoa_base.c
+MAIN = tests_num.c
+SRC = ft_printf.c ft_find_params.c ft_converse.c ft_itoa_base.c ft_converse_numb.c \
+ft_make_flag.c ft_print_num.c ft_sizes.c
+OBJ = ft_printf.o ft_find_params.o ft_converse.o ft_itoa_base.o ft_converse_numb.o \
+ft_make_flag.o ft_print_num.o ft_sizes.o
 
 all: $(NAME)
 
 $(NAME):
-	cd libft && make re && cp libft.a ../ && cd .. && mv libft.a $(NAME_L)
+	$(CC) $(FLAGS) -c $(SRC)
+	cd libft && make re && cp libft.a ../ && cd .. && mv libft.a $(NAME)
+	ar -q $(NAME) $(OBJ) 
+
+clean:
+	rm -rf $(OBJ)
+	$(MAKE) -C libft clean
+
+fclean: clean
+	rm -rf $(NAME)
+	$(MAKE) -C libft fclean
+
+re: fclean all
 
 comp:
-	$(CC) $(FLAGS) -o $(NAME) $(SRC) $(NAME_L)
+	$(CC) $(FLAGS) -o $(NAME_L) $(MAIN) $(SRC) $(NAME)
+
+cc:
+	rm -rf $(NAME_L)

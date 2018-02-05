@@ -28,6 +28,7 @@ typedef struct			s_printf
 	int					base;
 	char				*string;
 	int 				check_num;
+	int 				return_val;
 	struct	s_printf	*next;
 }						t_printf;
 
@@ -55,13 +56,25 @@ typedef struct			s_size
 	unsigned long long	u_ll;
 	intmax_t			j;
 	uintmax_t			u_j;
-	size_t				z;
+	size_t				u_z;
+	ssize_t				z;
 }						t_size;
 
 int		ft_printf(const char *string, ...);
-void	ft_find_params(const char *string, t_printf *params);
+int		ft_find_params(const char *string, t_printf *params);
 void	ft_converse(t_printf *params, void *string);
 char	*ft_strjoin_free(char **s1, char const *s2);
 char	*ft_itoa_base(size_t index, int base, int hex);
+void	ft_make_flag(t_printf *params, char *string);
+void	ft_check_size_l(t_printf *params, t_size *size, void *number);
+void	ft_check_size_h(t_printf *params, t_size *size, void *number);
+void	ft_check_size_hh(t_printf *params, t_size *size, void *number);
+void	ft_check_size_ll(t_printf *params, t_size *size, void *number);
+void	ft_check_size_j(t_printf *params, t_size *size, void *number);
+void	ft_check_size_z(t_printf *params, t_size *size, void *number);
+void	ft_make_out(char *string, t_printf *params);
+void	ft_check_no_size(t_printf *params, t_size *size, void *number);
+void	ft_check_size(t_printf *params, t_size *size, void *number);
+void	ft_print_num(t_printf *params, t_size **size);
 
 #endif
