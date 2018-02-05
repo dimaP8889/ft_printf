@@ -50,8 +50,8 @@ int		ft_printf(const char *string, ...)
 
 int		main(void)
 {
-	char lol;
+	int lol;
 
-	lol = 125;
-	ft_printf("%#7hhx", lol);
+	lol = -13;
+	ft_printf("% 2i", lol);
 }
