@@ -3,10 +3,17 @@
 void	ft_make_flag(t_printf *params, int check_num, char *string)
 {
 	int		count;
-	int 	count_zer;
+	int		count_zer;
+	int		count_sharp;
+	int		count_plus;
+	int		count_x;
+	char	*plus;
 
 	count = 0;
 	count_zer = 0;
+	count_sharp = 0;
+	count_plus = 0;
+	count_x = 0;
 	while (params->flag[count])
 	{
 		if (params->flag[count] == '0')
@@ -26,15 +33,103 @@ void	ft_make_flag(t_printf *params, int check_num, char *string)
 				}
 			}
 		}
-		else if (params->flag[count_zer] == ' ')
+		else if (params->flag[count] == ' ')
 		{
-			if (check_num > 0 && ((int)ft_strlen(string) > params->width))
+			if (check_num > 0 && ((int)ft_strlen(string) >= params->width))
 				params->out = ft_addletter(params->out, ' ');
 		}
+		else if (params->flag[count] == '+')
+		{
+			if (check_num == 1)
+			{
+				if (ft_strcmp(params->out, ""))
+				{
+					while (params->out[count_plus + 1])
+						count_plus++;
+					params->out[count_plus] = '+';
+				}
+				else
+				{
+					plus = params->out_num;
+					params->out_num = ft_strjoin("+", plus);
+					free(plus);
+				}
+			}
+		}
+		else if (params->flag[count] == '-')
+		{
+			params->flag_minus = 1;
+		}
+		else if (params->flag[count] == '#')
+		{
+			if (!ft_strcmp(params->convers, "o"))
+			{
+				if (check_num > 0 && ((int)ft_strlen(string) >= params->precision))
+				{
+					if (ft_strcmp(params->out, ""))
+					{
+						while (params->out[count_sharp + 1])
+							count_sharp++;
+						params->out[count_sharp] = '0';
+					}
+					else
+					{
+						plus = params->out_num;
+						params->out_num = ft_strjoin("0", plus);
+						free(plus);
+					}
+				}
+			}
+			else if (!ft_strcmp(params->convers, "x")) //need to correct
+			{
+				if (check_num > 0 && ((int)ft_strlen(string) >= params->precision))
+				{
+					while (params->out[count_x])
+						count_x++;
+					if (count_x > 2)
+					{
+						plus = params->out_num;
+						params->out_num = ft_strjoin("0x", plus);
+						free(plus);
+					}
+					else
+					{
+						while (params->out[count_sharp + 2])
+							count_sharp++;
+						params->out[count_sharp] = '0';
+						params->out[count_sharp + 1] = 'x';
+					}
+				}
+			}
+			else if (!ft_strcmp(params->convers, "X"))//need to correct
+			{
+				if (check_num > 0 && ((int)ft_strlen(string) >= params->precision))
+				{
+					while (params->out[count_x])
+						count_x++;
+					if (count_x > 2)
+					{
+						plus = params->out_num;
+						params->out_num = ft_strjoin("0X", plus);
+						free(plus);
+					}
+					else
+					{
+						while (params->out[count_sharp + 2])
+							count_sharp++;
+						params->out[count_sharp] = '0';
+						params->out[count_sharp + 1] = 'X';
+					}
+				}
+			}
+		}
 		count++;
+		count_zer = 0;
+		count_sharp = 0;
+		count_plus = 0;
+		count_x = 0;
 	}
 }
-
 void	ft_make_out(char *string, t_printf *params, int check_num)
 {
 	int			count_perc;
@@ -43,15 +138,12 @@ void	ft_make_out(char *string, t_printf *params, int check_num)
 
 	count_width = params->width;
 	count_perc = params->precision;
-	//printf("w:%i\n", count_width);
-	//length = (check_num == 1 ? 0 : 1) + (params->width > params->precision ? params->width )
 	if (params->width > params->precision && params->precision > (int)ft_strlen(string))
 		length = params->width - params->precision;
 	if (params->width > params->precision && params->precision <= (int)ft_strlen(string))
 		length = params->width - (int)ft_strlen(string);
 	if (params->width <= params->precision)
 		length = 0;
-	//printf("l%d\n", length);
 	length = length - (check_num == 1 ? 0 : 1);
 	if (ft_strcmp(params->width_char, ""))
 		while (length > 0)
@@ -59,8 +151,6 @@ void	ft_make_out(char *string, t_printf *params, int check_num)
 			params->out = ft_addletter(params->out, ' ');
 			length--;
 		}
-
-	//ft_make_flag(params);
 	if (check_num == -1)
 		params->out_num = ft_addletter(params->out_num, '-');
 	if (ft_strcmp(params->precision_char, ""))
@@ -69,13 +159,7 @@ void	ft_make_out(char *string, t_printf *params, int check_num)
 			params->out_num = ft_addletter(params->out_num, '0');
 			count_perc--;
 		}
-	// if (!ft_strcmp(params->flag, ""))
-	// 	if (check_num == -1)
-	// 		params->out_num = ft_addletter(params->out_num, '-');
-	//printf("o:%s\n", params->out);
 	ft_make_flag(params, check_num, string);
-	params->out = ft_strjoin_free(&params->out, params->out_num);
-	//ft_make_flag(params);
 }
 
 void	ft_converse_numb(t_printf *params, void *number)
@@ -98,7 +182,7 @@ void	ft_converse_numb(t_printf *params, void *number)
 	if (ft_strcmp(params->size, ""))
 	{
 		if (!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "D") 
-			|| !ft_strcmp(params->convers, "U") || !ft_strcmp(params->convers, "O") || !ft_strcmp(params->convers, "O"))
+			|| !ft_strcmp(params->convers, "U") || !ft_strcmp(params->convers, "O"))
 		{
 			if (!ft_strcmp(params->convers, "d") || !ft_strcmp(params->convers, "i") || !ft_strcmp(params->convers, "D"))
 			{
@@ -234,8 +318,18 @@ void	ft_converse_numb(t_printf *params, void *number)
 		string = ft_itoa_base((size_t)size->u_i, base, (params->convers[0] == 'X' ? 1 : 0));
 	}
 	ft_make_out(string, params, check_num);
-	ft_putstr(params->out);
-	ft_putstr(string);
+	if (params->flag_minus == 1)
+	{
+		params->out_num = ft_strjoin_free(&params->out_num, string);
+		params->out_num = ft_strjoin_free(&params->out_num, params->out);
+		ft_putstr(params->out_num);
+	}
+	else
+	{
+		params->out = ft_strjoin_free(&params->out, params->out_num);
+		params->out = ft_strjoin_free(&params->out, string);
+		ft_putstr(params->out);
+	}
 	ft_putchar('\n');
 	free(string);
 	free(size);	

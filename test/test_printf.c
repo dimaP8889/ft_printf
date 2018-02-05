@@ -26,7 +26,7 @@ int		main(void)
 {
 	char lol;
 
-	lol = -99;
-	printf("% 5.3hhi", lol);
+	lol = 125;
+	printf("%#7hhx", lol);
 	//ft_printf("%28.15hi", lol);
 }

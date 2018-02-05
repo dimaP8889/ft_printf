@@ -6,8 +6,6 @@ void	ft_free(t_printf *list)
 	{
 		while (list->next)
 		{
-			//printf("print: %s\n", list->print);
-			//printf("pars: %s\n", list->pars);
 			free(list->pars);
 			free(list->print);
 			free(list->flag);
@@ -54,6 +52,6 @@ int		main(void)
 {
 	char lol;
 
-	lol = -99;
-	ft_printf("% 5.3hhi", lol);
+	lol = 125;
+	ft_printf("%#7hhx", lol);
 }

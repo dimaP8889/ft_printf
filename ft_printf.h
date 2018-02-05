@@ -24,6 +24,8 @@ typedef struct			s_printf
 	int					found_perc;
 	char				*out;
 	char				*out_num;
+	int 				flag_minus;
+	int 				flag_sharp;
 	struct	s_printf	*next;
 }						t_printf;
 
