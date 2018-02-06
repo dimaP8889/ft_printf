@@ -39,13 +39,21 @@ void	ft_check_size_hh(t_printf *params, t_size *size, void *number)
 {
 	if (!ft_strcmp(params->convers, "d") || !ft_strcmp(params->convers, "i"))
 	{
-		size->hh = (char)number;
-		if (size->hh < 0)
+		size->hh = (signed char)number;
+		if (size->hh == -128)
 		{
 			params->check_num = -1;
-			size->hh = -size->hh;
+			params->string = ft_strjoin_free(&params->string, "128");
 		}
-		params->string = ft_itoa_base((size_t)size->hh, params->base, 0);
+		else
+		{
+			if (size->hh < 0)
+			{
+				params->check_num = -1;
+				size->hh = -size->hh;
+			}
+			params->string = ft_itoa_base((size_t)size->hh, params->base, 0);
+		}
 	}
 	else if (!ft_strcmp(params->convers, "o") || !ft_strcmp(params->convers, "u")
 		|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
@@ -65,18 +73,26 @@ void	ft_check_size_h(t_printf *params, t_size *size, void *number)
 {
 	if (!ft_strcmp(params->convers, "d") || !ft_strcmp(params->convers, "i"))
 	{
-		size->h = (char)number;
-		if (size->h < 0)
+		size->h = (short)number;
+		if (size->h == -32768)
 		{
 			params->check_num = -1;
-			size->h = -size->h;
+			params->string = ft_strjoin_free(&params->string, "32768");
 		}
-		params->string = ft_itoa_base((size_t)size->h, params->base, 0);
+		else
+		{
+			if (size->h < 0)
+			{
+				params->check_num = -1;
+				size->h = -size->h;
+			}
+			params->string = ft_itoa_base((size_t)size->h, params->base, 0);
+		}
 	}
 	else if (!ft_strcmp(params->convers, "o") || !ft_strcmp(params->convers, "u")
 		|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
 	{
-		size->u_h = (unsigned char)number;
+		size->u_h = (unsigned short)number;
 		if (size->u_h < 0)
 		{
 			params->check_num = -1;

@@ -13,6 +13,10 @@ void	ft_free(t_printf *list)
 			free(list->precision_char);
 			free(list->size);
 			free(list->convers);
+			if (list->flag_m_z == 2)
+				list->out = list->out - 2;
+			if (list->flag_m_z == 1 || list->flag_p_m == 1)
+				list->out--;
 			free(list->out);
 			free(list->out_num);
 			free(list);

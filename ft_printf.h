@@ -25,10 +25,14 @@ typedef struct			s_printf
 	char				*out;
 	char				*out_num;
 	int 				flag_minus;
+	int 				flag_zero;
 	int					base;
 	char				*string;
 	int 				check_num;
 	int 				return_val;
+	int 				check_zero;
+	int 				flag_m_z;
+	int 				flag_p_m;
 	struct	s_printf	*next;
 }						t_printf;
 
@@ -38,13 +42,13 @@ typedef struct			s_flags_num
 	int					count_sharp;
 	int					count_plus;
 	int					count_x;
-	char			*plus;
+	char				*plus;
 	char				*sharp;
 }						t_flags_num;
 
 typedef struct			s_size
 {
-	char				hh;
+	signed char			hh;
 	unsigned char		u_hh;
 	short				h;
 	unsigned short		u_h;

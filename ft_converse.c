@@ -31,6 +31,8 @@ void	ft_converse(t_printf *params, void *string)
 {
 	params->out = ft_strnew(0);
 	params->out_num = ft_strnew(0);
+	if ((int) string == 0)
+		params->check_zero = 1;
 	// if (params->convers[0] == '%')
 	// 	ft_converse_per(params);
 	// if (params->convers[0] == 's' || params->convers[0] == 'S')

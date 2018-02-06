@@ -26,7 +26,6 @@ void	ft_print_num(t_printf *params, t_size **size)
 	{
 		params->out = ft_strjoin_free(&params->out, params->out_num);
 		params->out = ft_strjoin_free(&params->out, params->string);
-		//printf("p: %s\n", params->out);
 		ft_putstr(params->out);
 		params->return_val = ft_strlen(params->out);
 	}

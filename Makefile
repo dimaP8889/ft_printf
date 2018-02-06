@@ -25,7 +25,7 @@ all: $(NAME)
 $(NAME):
 	$(CC) $(FLAGS) -c $(SRC)
 	cd libft && make re && cp libft.a ../ && cd .. && mv libft.a $(NAME)
-	ar -q $(NAME) $(OBJ) 
+	ar -q $(NAME) $(OBJ)
 
 clean:
 	rm -rf $(OBJ)

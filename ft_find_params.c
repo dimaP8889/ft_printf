@@ -6,9 +6,12 @@ char	*ft_strjoin_free(char **s1, char const *s2)
 	char	*str1;
 	char	*help_str;
 
-	if (*s1 && s1 && s2)
+	if (s1 && s2)
 	{
-		help_str = ft_strdup(*s1);
+		if (!*s1)
+			help_str = ft_strnew(0);
+		else
+			help_str = ft_strdup(*s1);
 		str = (char *)malloc(sizeof(char)
 			* (ft_strlen(help_str) + ft_strlen(s2) + 1));
 		if (str == NULL)

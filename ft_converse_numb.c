@@ -34,12 +34,20 @@ void	ft_check_no_size(t_printf *params, t_size *size, void *number)
 	if (!ft_strcmp(params->convers, "d") || !ft_strcmp(params->convers, "i"))
 	{
 		size->i = (int)number;
-		if (size->i < 0)
+		if (size->i == -2147483648)
 		{
 			params->check_num = -1;
-			size->i = -size->i;
+			params->string = ft_strjoin_free(&params->string, "2147483648");
 		}
-		params->string = ft_itoa_base((size_t)size->i, params->base, 0);
+		else
+		{
+			if (size->i < 0)
+			{
+				params->check_num = -1;
+				size->i = -size->i;
+			}
+			params->string = ft_itoa_base((size_t)size->i, params->base, 0);
+		}
 	}
 	else if (!ft_strcmp(params->convers, "o") || !ft_strcmp(params->convers, "u")
 			|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
@@ -65,6 +73,7 @@ void	ft_make_out(char *string, t_printf *params)
 	int			count_perc;
 	int 		length;
 	int			count;
+	char 		*minus;
 
 	count_perc = params->precision;
 	if (params->width > params->precision 
@@ -89,11 +98,14 @@ void	ft_make_out(char *string, t_printf *params)
 	ft_make_flag(params, string);
 	if (params->check_num == -1)
 	{
-		params->out = ft_addletter(params->out, '-');
-		// if (ft_strcmp(params->out, ""))
-		// {
-		// 	params->out_num = ft_addletter(params->out_num, '-');
-		// }
+		if (params->flag_minus == 1)
+		{
+			minus = params->out_num;
+			params->out_num = ft_strjoin("-", minus);
+			free(minus);
+		}
+		else 
+			params->out = ft_addletter(params->out, '-');
 	}
 }
 
