@@ -68,44 +68,48 @@ void	ft_check_no_size(t_printf *params, t_size *size, void *number)
 	}
 }
 
-void	ft_make_out(char *string, t_printf *params)
+void	ft_make_out(t_printf *params)
 {
 	int			count_perc;
 	int 		length;
 	int			count;
-	char 		*minus;
+	//char 		*minus;
 
 	count_perc = params->precision;
 	if (params->width > params->precision 
-	&& params->precision > (int)ft_strlen(string))
+	&& params->precision > (int)ft_strlen(params->string))
 		length = params->width - params->precision;
 	if (params->width > params->precision 
-	&& params->precision <= (int)ft_strlen(string))
-		length = params->width - (int)ft_strlen(string);
+	&& params->precision <= (int)ft_strlen(params->string))
+		length = params->width - (int)ft_strlen(params->string);
 	if (params->width <= params->precision)
 		length = 0;
-	length = length - (params->check_num == 1 ? 0 : 1);
+	//length = length - (params->check_num == 1 ? 0 : 1);
 	count = length;
 	if (ft_strcmp(params->width_char, ""))
 		while (length-- > 0)
 			params->out = ft_addletter(params->out, ' ');
 	if (ft_strcmp(params->precision_char, ""))
-		while (count_perc > (int)ft_strlen(string))
+		while (count_perc > (int)ft_strlen(params->string))
 		{
 			params->out_num = ft_addletter(params->out_num, '0');
 			count_perc--;
 		}
-	ft_make_flag(params, string);
-	if (params->check_num == -1)
-	{
-		if (params->flag_minus == 1)
-		{
-			minus = params->out_num;
-			params->out_num = ft_strjoin("-", minus);
-			free(minus);
-		}
-		else 
-			params->out = ft_addletter(params->out, '-');
-	}
+	params->out_num = ft_strjoin_free(&params->out_num, params->string);
+	//printf("%s\n", params->out);
+	
+	ft_make_flag(params);
+	free(params->string);
+	// if (params->check_num == -1)
+	// {
+	// 	if (params->flag_minus == 1)
+	// 	{
+	// 		minus = params->out_num;
+	// 		params->out_num = ft_strjoin("-", minus);
+	// 		free(minus);
+	// 	}
+	// 	else 
+	// 		params->out = ft_addletter(params->out, '-');
+	// }
 }
 

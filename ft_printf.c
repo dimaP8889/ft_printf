@@ -13,10 +13,7 @@ void	ft_free(t_printf *list)
 			free(list->precision_char);
 			free(list->size);
 			free(list->convers);
-			if (list->flag_m_z == 2)
-				list->out = list->out - 2;
-			if (list->flag_m_z == 1 || list->flag_p_m == 1)
-				list->out--;
+			list->out_num = list->out_num - list->move;
 			free(list->out);
 			free(list->out_num);
 			free(list);
@@ -30,6 +27,37 @@ void	ft_free(t_printf *list)
 		free(list);
 	}
 	//system("leaks ft_printf");
+}
+
+int		ft_find_base_flags(char c)
+{
+	int		num;
+	char 	*base;
+
+	base = "0+ #-\0";
+	num = 0;
+	while (base[num] != c)
+		num++;
+	return (num);
+}
+
+void	ft_sort_flags(t_printf *params)
+{
+	int		count_flags;
+	char 	flag;
+
+	count_flags = 0;
+	//printf("%s\n", params->flag);
+	while (params->flag[count_flags + 1])
+	{
+		if (ft_find_base_flags(params->flag[count_flags]) > ft_find_base_flags(params->flag[count_flags + 1]))
+		{
+			flag = params->flag[count_flags];
+			params->flag[count_flags] = params->flag[count_flags + 1];
+			params->flag[count_flags + 1] = flag;
+		}
+		count_flags++;
+	}
 }
 
 int		ft_printf(const char *string, ...)
@@ -46,6 +74,7 @@ int		ft_printf(const char *string, ...)
 		ft_putstr(params->print);
 		return (ft_strlen(params->print));
 	}
+	ft_sort_flags(params);
 	va_start(ap, string);
 	s = va_arg(ap, void*);
 	ft_converse(list, s);

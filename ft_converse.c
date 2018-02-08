@@ -23,7 +23,7 @@ void	ft_converse_numb(t_printf *params, void *number)
 		ft_check_size(params, size, number);
 	else
 		ft_check_no_size(params, size, number);
-	ft_make_out(params->string, params);
+	ft_make_out(params);
 	ft_print_num(params, &size);
 }
 

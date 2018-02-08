@@ -12,7 +12,7 @@
 
 typedef struct			s_printf
 {
-	char 				*pars;
+	char				*pars;
 	int					width;
 	char				*width_char;
 	int					precision;
@@ -24,15 +24,20 @@ typedef struct			s_printf
 	int					found_perc;
 	char				*out;
 	char				*out_num;
-	int 				flag_minus;
-	int 				flag_zero;
+	int					flag_minus;
+	int					flag_zero;
 	int					base;
 	char				*string;
-	int 				check_num;
-	int 				return_val;
-	int 				check_zero;
-	int 				flag_m_z;
-	int 				flag_p_m;
+	int					check_num;
+	int					return_val;
+	int					check_zero;
+	int					flag_space;
+	int					flag_plus;
+	int					flag_sharp_o;
+	int					flag_sharp_x;
+	int					flag_sharp_X;
+	int					flag_mv;
+	int					move;
 	struct	s_printf	*next;
 }						t_printf;
 
@@ -69,14 +74,14 @@ int		ft_find_params(const char *string, t_printf *params);
 void	ft_converse(t_printf *params, void *string);
 char	*ft_strjoin_free(char **s1, char const *s2);
 char	*ft_itoa_base(size_t index, int base, int hex);
-void	ft_make_flag(t_printf *params, char *string);
+void	ft_make_flag(t_printf *params);
 void	ft_check_size_l(t_printf *params, t_size *size, void *number);
 void	ft_check_size_h(t_printf *params, t_size *size, void *number);
 void	ft_check_size_hh(t_printf *params, t_size *size, void *number);
 void	ft_check_size_ll(t_printf *params, t_size *size, void *number);
 void	ft_check_size_j(t_printf *params, t_size *size, void *number);
 void	ft_check_size_z(t_printf *params, t_size *size, void *number);
-void	ft_make_out(char *string, t_printf *params);
+void	ft_make_out(t_printf *params);
 void	ft_check_no_size(t_printf *params, t_size *size, void *number);
 void	ft_check_size(t_printf *params, t_size *size, void *number);
 void	ft_print_num(t_printf *params, t_size **size);
