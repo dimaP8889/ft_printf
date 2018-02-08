@@ -13,7 +13,9 @@ void	ft_free(t_printf *list)
 			free(list->precision_char);
 			free(list->size);
 			free(list->convers);
+			free(list->string);
 			list->out_num = list->out_num - list->move;
+			list->out = list->out - list->tihs;
 			free(list->out);
 			free(list->out_num);
 			free(list);
@@ -76,6 +78,7 @@ int		ft_printf(const char *string, ...)
 	}
 	ft_sort_flags(params);
 	va_start(ap, string);
+	ft_putstr(params->print);
 	s = va_arg(ap, void*);
 	ft_converse(list, s);
 	//printf("%c\n", params->convers[0]);

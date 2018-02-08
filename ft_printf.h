@@ -24,30 +24,26 @@ typedef struct			s_printf
 	int					found_perc;
 	char				*out;
 	char				*out_num;
-	int					flag_minus;
-	int					flag_zero;
 	int					base;
 	char				*string;
 	int					check_num;
 	int					return_val;
 	int					check_zero;
-	int					flag_space;
-	int					flag_plus;
-	int					flag_sharp_o;
-	int					flag_sharp_x;
-	int					flag_sharp_X;
-	int					flag_mv;
 	int					move;
+	int 				tihs;
 	struct	s_printf	*next;
 }						t_printf;
 
 typedef struct			s_flags_num
 {
-	int					count_zer;
-	int					count_sharp;
-	int					count_plus;
+	int					sharp_X;
+	int					sharp_x;
+	int					sharp_o;
 	int					count_x;
-	char				*plus;
+	int					plus;
+	int 				space;
+	int 				zero;
+	int 				minus;
 	char				*sharp;
 }						t_flags_num;
 

@@ -12,29 +12,29 @@
 
 #include "ft_printf.h"
 
-void	ft_add_letter(t_printf *params)
+void	ft_add_letter(t_printf *params, t_flags_num *flag)
 {
 	if (params->check_num == -1)
 		params->out = ft_addletter(params->out, '-');
-	else if (params->flag_plus == 1)
+	else if (flag->plus == 1)
 		params->out = ft_addletter(params->out, '+');
-	else if (params->flag_space == 1)
+	else if (flag->space == 1)
 		params->out = ft_addletter(params->out, ' ');
-	else if (params->flag_sharp_o == 1)
+	else if (flag->sharp_o == 1)
 		params->out = ft_addletter(params->out, '0');
-	else if (params->flag_sharp_x == 1)
+	else if (flag->sharp_x == 1)
 	{
 		params->out = ft_addletter(params->out, '0');
 		params->out = ft_addletter(params->out, 'x');
 	}
-	else if (params->flag_sharp_X == 1)
+	else if (flag->sharp_X == 1)
 	{
 		params->out = ft_addletter(params->out, '0');
 		params->out = ft_addletter(params->out, 'X');
 	}
 }
 
-void	ft_add_out(t_printf *params, int x)
+void	ft_add_out(t_printf *params, int x, t_flags_num *flag)
 {
 	int count;
 
@@ -43,54 +43,54 @@ void	ft_add_out(t_printf *params, int x)
 		count++;
 	if (params->check_num == -1)
 		params->out[count] = '-';
-	else if (params->flag_plus == 1)
+	else if (flag->plus == 1)
 		params->out[count] = '+';
-	else if (params->flag_space == 1)
+	else if (flag->space == 1)
 		params->out[count] = ' ';
-	else if (params->flag_sharp_o == 1)
+	else if (flag->sharp_o == 1)
 		params->out[count] = '0';
-	else if (params->flag_sharp_x == 1)
+	else if (flag->sharp_x == 1)
 	{
 		params->out[count] = '0';
 		params->out[count + 1] = 'x';
 	}
-	else if (params->flag_sharp_X == 1)
+	else if (flag->sharp_X == 1)
 	{
 		params->out[count] = '0';
 		params->out[count + 1] = 'X';
 	}
 }
 
-void	ft_add_out_num(t_printf *params)
+void	ft_add_out_num(t_printf *params, t_flags_num *flag)
 {
 	if (params->check_num == -1)
 		params->out_num[0] = '-';
-	else if (params->flag_plus == 1)
+	else if (flag->plus == 1)
 		params->out_num[0] = '+';
-	else if (params->flag_space == 1)
+	else if (flag->space == 1)
 		params->out_num[0] = ' ';
-	else if (params->flag_sharp_o == 1)
+	else if (flag->sharp_o == 1)
 		params->out_num[0] = '0';
-	else if (params->flag_sharp_x == 1)
+	else if (flag->sharp_x == 1)
 	{
 		params->out_num[0] = '0';
 		params->out_num[1] = 'x';
 	}
-	else if (params->flag_sharp_X == 1)
+	else if (flag->sharp_X == 1)
 	{
 		params->out_num[0] = '0';
 		params->out_num[1] = 'X';
 	}
 }
 
-void	ft_swap_letters(t_printf *params)
+void	ft_swap_letters(t_printf *params, t_flags_num *flag)
 {
 	char 	x;
 	char 	o;
 	int		count;
 
 	count = 0;
-	if (params->flag_sharp_x == 1 || params->flag_sharp_X == 1)
+	if (flag->sharp_x == 1 || flag->sharp_X == 1)
 	{
 		while (params->out[count])
 			count++;
@@ -105,8 +105,8 @@ void	ft_swap_letters(t_printf *params)
 		params->out[0] = o;
 		params->out[1] = x;
 	}
-	else if (params->flag_sharp_o == 1 || params->flag_space == 1 ||
-	params->flag_plus == 1 || params->check_num == -1)
+	else if (flag->sharp_o == 1 || flag->space == 1 ||
+	flag->plus == 1 || params->check_num == -1)
 	{
 		while (params->out[count])
 			count++;
@@ -125,7 +125,6 @@ void	ft_flag_zero(t_printf *params, t_flags_num *flag)
 {
 	char 	*zero;
 	int		count;
-	(void)flag;
 
 	count = 0;
 	if (!ft_strcmp(params->precision_char, "") && !ft_strchr(params->flag, '-'))
@@ -135,41 +134,37 @@ void	ft_flag_zero(t_printf *params, t_flags_num *flag)
 			params->out[count] = '0';
 			count++;
 		}
-		zero = params->out;
-		params->flag_zero = 1;
-		params->out_num = ft_strjoin(zero, params->out_num);
+		zero = params->out_num;
+		//params->flag_zero = 1;
+		flag->zero = 1;
+		params->out_num = ft_strjoin(params->out, zero);
+		free(zero);
 		params->out = ft_memset(params->out, '\0', ft_strlen(params->out));
-		//leak
 	}
 	
 }
 
 void	ft_flag_plus(t_printf *params, t_flags_num *flag)
 {
-	(void)flag;
-
 	if (params->check_num == 1 && !ft_strchr(params->convers, 'u'))
-		params->flag_plus = 1;
+		flag->plus = 1;
 }
 
 void	ft_flag_space(t_printf *params, t_flags_num *flag)
 {
-	(void)flag;
-
 	if (!ft_strchr(params->flag, '+') && !ft_strchr(params->convers, 'u'))
-		params->flag_space = 1;
+		flag->space = 1;
 }
 
 void	ft_flag_minus(t_printf *params, t_flags_num *flag)
 {
-	(void)flag;
 	char *str;
 
 	str = params->out;
 	params->out = params->out_num;
 	params->out_num = str;
-	ft_add_letter(params);
-	ft_swap_letters(params);
+	ft_add_letter(params, flag);
+	ft_swap_letters(params, flag);
 	if (ft_strlen(params->out_num) != 0)
 	{
 		if (params->check_num == -1)
@@ -177,22 +172,22 @@ void	ft_flag_minus(t_printf *params, t_flags_num *flag)
 			params->out_num++;
 			params->move++;
 		}
-		else if (params->flag_plus == 1)
+		else if (flag->plus == 1)
 		{
 			params->out_num++;
 			params->move++;
 		}
-		else if (params->flag_space == 1)
+		else if (flag->space == 1)
 		{
 			params->out_num++;
 			params->move++;
 		}
-		else if (params->flag_sharp_o == 1)
+		else if (flag->sharp_o == 1)
 		{
 			params->out_num++;
 			params->move++;
 		}
-		else if (params->flag_sharp_x == 1 || params->flag_sharp_X == 1)
+		else if (flag->sharp_x == 1 || flag->sharp_X == 1)
 		{
 			params->out_num = params->out_num + 2;
 			params->move = params->move + 2;
@@ -203,46 +198,41 @@ void	ft_flag_minus(t_printf *params, t_flags_num *flag)
 void	ft_flag_sharp(t_printf *params, t_flags_num *flag)
 {
 	int		count;
-	(void)flag;
 
 	count = 0;
 	if (!ft_strcmp(params->convers, "o") && !params->check_zero)
-		params->flag_sharp_o = 1;
+		flag->sharp_o = 1;
 	else if ((!ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "p")) && !params->check_zero)
-		params->flag_sharp_x = 1;
+		flag->sharp_x = 1;
 	else if (!ft_strcmp(params->convers, "X") && !params->check_zero)
-		params->flag_sharp_X = 1;
+		flag->sharp_X = 1;
 }
 
-void	ft_finish_flags(t_printf *params)
+void	ft_finish_flags(t_printf *params, t_flags_num *flag)
 {
 	int		x;
 
 	x = 1;
 	if (params->width <= params->precision 
 		|| params->width <= (int)ft_strlen(params->string))
-		ft_add_letter(params);
+		ft_add_letter(params, flag);
 	else if (params->width > params->precision)
 	{
-		if (params->flag_sharp_x == 1 || params->flag_sharp_X == 1)
+		if (flag->sharp_x == 1 || flag->sharp_X == 1)
 			x = 2;
-		if (params->flag_zero == 0)
-			ft_add_out(params, x);
+		if (flag->zero == 0)
+			ft_add_out(params, x, flag);
 		else
-			ft_add_out_num(params);
+			ft_add_out_num(params, flag);
 	}
 }
 
 void	ft_make_flag(t_printf *params)
 {
 	t_flags_num *flag;
-	int			count;
 
-	count = 0;
-	params->flag_minus = 0;
-	params->flag_mv = 0;
-	flag = (t_flags_num *)malloc(sizeof(t_flags_num));
-	flag->count_zer = 0;
+	flag = (t_flags_num*)malloc(sizeof(t_flags_num));
+	params->move = 0;
 	if (ft_strchr(params->flag, '0'))
 		ft_flag_zero(params, flag);
 	if (ft_strchr(params->flag, '+'))
@@ -254,6 +244,6 @@ void	ft_make_flag(t_printf *params)
 	if (ft_strchr(params->flag, '-'))
 		ft_flag_minus(params, flag);
 	else
-		ft_finish_flags(params);
+		ft_finish_flags(params, flag);
 	free(flag);
 }

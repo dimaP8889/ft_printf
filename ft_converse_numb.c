@@ -99,7 +99,6 @@ void	ft_make_out(t_printf *params)
 	//printf("%s\n", params->out);
 	
 	ft_make_flag(params);
-	free(params->string);
 	// if (params->check_num == -1)
 	// {
 	// 	if (params->flag_minus == 1)
