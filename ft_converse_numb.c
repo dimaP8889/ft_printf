@@ -73,7 +73,6 @@ void	ft_make_out(t_printf *params)
 	int			count_perc;
 	int 		length;
 	int			count;
-	//char 		*minus;
 
 	count_perc = params->precision;
 	if (params->width > params->precision 
@@ -84,7 +83,6 @@ void	ft_make_out(t_printf *params)
 		length = params->width - (int)ft_strlen(params->string);
 	if (params->width <= params->precision)
 		length = 0;
-	//length = length - (params->check_num == 1 ? 0 : 1);
 	count = length;
 	if (ft_strcmp(params->width_char, ""))
 		while (length-- > 0)
@@ -96,19 +94,6 @@ void	ft_make_out(t_printf *params)
 			count_perc--;
 		}
 	params->out_num = ft_strjoin_free(&params->out_num, params->string);
-	//printf("%s\n", params->out);
-	
 	ft_make_flag(params);
-	// if (params->check_num == -1)
-	// {
-	// 	if (params->flag_minus == 1)
-	// 	{
-	// 		minus = params->out_num;
-	// 		params->out_num = ft_strjoin("-", minus);
-	// 		free(minus);
-	// 	}
-	// 	else 
-	// 		params->out = ft_addletter(params->out, '-');
-	// }
 }
 

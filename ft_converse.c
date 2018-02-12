@@ -27,6 +27,26 @@ void	ft_converse_numb(t_printf *params, void *number)
 	ft_print_num(params, &size);
 }
 
+void	ft_converse_char(t_printf *params, void *number)
+{
+	int	count;
+	int	move;
+
+	move = 0;
+	count = params->width;
+	//printf("%s\n", params->out);
+	while (count-- >= 2)
+		params->out = ft_addletter(params->out, ' ');
+	if (!ft_strcmp(params->flag, ""))
+		ft_putstr(params->out);
+	if (!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "C"))
+		ft_make_unicode_char((unsigned int)number);
+	else if (!ft_strcmp(params->size, ""))
+		ft_putchar((char)number);
+	if (!ft_strcmp(params->flag, "-"))
+		ft_putstr(params->out);
+}
+
 void	ft_converse(t_printf *params, void *string)
 {
 	params->out = ft_strnew(0);
@@ -42,6 +62,6 @@ void	ft_converse(t_printf *params, void *string)
 		|| params->convers[0] == 'o' || params->convers[0] == 'O' || params->convers[0] == 'x' 
 		|| params->convers[0] == 'X' || params->convers[0] == 'p')
 		ft_converse_numb(params, string);
-	// if (params->convers[0] == 'c' || params->convers[0] == 'C')
-	// 	ft_converse_char(params, (char)string);
+	if (params->convers[0] == 'c' || params->convers[0] == 'C')
+		ft_converse_char(params, string);
 }

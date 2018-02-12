@@ -49,7 +49,6 @@ void	ft_sort_flags(t_printf *params)
 	char 	flag;
 
 	count_flags = 0;
-	//printf("%s\n", params->flag);
 	while (params->flag[count_flags + 1])
 	{
 		if (ft_find_base_flags(params->flag[count_flags]) > ft_find_base_flags(params->flag[count_flags + 1]))
@@ -81,17 +80,7 @@ int		ft_printf(const char *string, ...)
 	ft_putstr(params->print);
 	s = va_arg(ap, void*);
 	ft_converse(list, s);
-	//printf("%c\n", params->convers[0]);
-	//ft_converse(params, s);
 	va_end(ap);
 	ft_free(params);
 	return (params->return_val);
 }
-
-// int		main(void)
-// {
-// 	int lol;
-
-// 	lol = -13;
-// 	ft_printf("% 2i", lol);
-// }

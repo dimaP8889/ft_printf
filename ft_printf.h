@@ -4,7 +4,7 @@
 # include "libft/includes/libft.h"
 # include <stdarg.h>
 # include <stdlib.h>
-# include <stdio.h>
+#include <stdio.h>
 
 # define CONVERS "sSpdDioOuUxXcC%\0"
 # define FLAGS "#0-+ \0"
@@ -81,5 +81,6 @@ void	ft_make_out(t_printf *params);
 void	ft_check_no_size(t_printf *params, t_size *size, void *number);
 void	ft_check_size(t_printf *params, t_size *size, void *number);
 void	ft_print_num(t_printf *params, t_size **size);
+void	ft_make_unicode_char(unsigned int symb);
 
 #endif

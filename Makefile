@@ -16,9 +16,9 @@ NAME = libftprintf.a
 FLAGS = -Wall -Wextra -Werror
 MAIN = tests_num.c
 SRC = ft_printf.c ft_find_params.c ft_converse.c ft_itoa_base.c ft_converse_numb.c \
-ft_make_flag.c ft_print_num.c ft_sizes.c
+ft_make_flag.c ft_print_num.c ft_sizes.c ft_make_unicode_char.c 
 OBJ = ft_printf.o ft_find_params.o ft_converse.o ft_itoa_base.o ft_converse_numb.o \
-ft_make_flag.o ft_print_num.o ft_sizes.o
+ft_make_flag.o ft_print_num.o ft_sizes.o ft_make_unicode_char.o 
 
 all: $(NAME)
 
