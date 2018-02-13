@@ -4,7 +4,7 @@ void	ft_free(t_printf *list)
 {
 	if (list->found_perc == 1)
 	{
-		while (list->next)
+		while (list)
 		{
 			free(list->pars);
 			free(list->print);
@@ -13,10 +13,13 @@ void	ft_free(t_printf *list)
 			free(list->precision_char);
 			free(list->size);
 			free(list->convers);
+			// printf("test\n");
 			free(list->string);
+			// //printf("test\n");
 			list->out_num = list->out_num - list->move;
 			list->out = list->out - list->tihs;
 			free(list->out);
+			//printf("%s\n", list->out_num);
 			free(list->out_num);
 			free(list);
 			list = list->next;
@@ -28,7 +31,6 @@ void	ft_free(t_printf *list)
 		free(list->print);
 		free(list);
 	}
-	//system("leaks ft_printf");
 }
 
 int		ft_find_base_flags(char c)
@@ -69,12 +71,14 @@ int		ft_printf(const char *string, ...)
 	t_printf		*list;
 
 	params = (t_printf *)malloc(sizeof(t_printf));
-	list = params;
+	params->next = NULL;
 	if (!ft_find_params(string, params))
 	{
 		ft_putstr(params->print);
 		return (ft_strlen(params->print));
 	}
+	
+	list = params;
 	ft_sort_flags(params);
 	va_start(ap, string);
 	ft_putstr(params->print);

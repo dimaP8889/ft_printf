@@ -44,7 +44,6 @@ typedef struct			s_flags_num
 	int 				space;
 	int 				zero;
 	int 				minus;
-	char				*sharp;
 }						t_flags_num;
 
 typedef struct			s_size
@@ -81,6 +80,6 @@ void	ft_make_out(t_printf *params);
 void	ft_check_no_size(t_printf *params, t_size *size, void *number);
 void	ft_check_size(t_printf *params, t_size *size, void *number);
 void	ft_print_num(t_printf *params, t_size **size);
-void	ft_make_unicode_char(unsigned int symb);
+void	ft_make_unicode_char(t_printf *params, unsigned int symb);
 
 #endif

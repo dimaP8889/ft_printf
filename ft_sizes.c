@@ -23,6 +23,7 @@ void	ft_check_size_l(t_printf *params, t_size *size, void *number)
 			params->check_num = -1;
 			size->l = -size->l;
 		}
+			free(params->string);
 			params->string = ft_itoa_base((size_t)size->l, params->base, 0);
 	}
 	else if (!ft_strcmp(params->convers, "o") || !ft_strcmp(params->convers, "O")
@@ -30,6 +31,7 @@ void	ft_check_size_l(t_printf *params, t_size *size, void *number)
 		|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
 	{
 		size->u_l = (unsigned long)number;
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->u_l, 
 			params->base, (params->convers[0] == 'X' ? 1 : 0));
 	}
@@ -52,6 +54,7 @@ void	ft_check_size_hh(t_printf *params, t_size *size, void *number)
 				params->check_num = -1;
 				size->hh = -size->hh;
 			}
+			free(params->string);
 			params->string = ft_itoa_base((size_t)size->hh, params->base, 0);
 		}
 	}
@@ -64,6 +67,7 @@ void	ft_check_size_hh(t_printf *params, t_size *size, void *number)
 			params->check_num = -1;
 			size->u_hh = -size->u_hh;
 		}
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->u_hh, 
 		params->base, (params->convers[0] == 'X' ? 1 : 0));
 	}
@@ -86,6 +90,7 @@ void	ft_check_size_h(t_printf *params, t_size *size, void *number)
 				params->check_num = -1;
 				size->h = -size->h;
 			}
+			free(params->string);
 			params->string = ft_itoa_base((size_t)size->h, params->base, 0);
 		}
 	}
@@ -98,6 +103,7 @@ void	ft_check_size_h(t_printf *params, t_size *size, void *number)
 			params->check_num = -1;
 			size->u_h = -size->u_h;
 		}
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->u_h, 
 		params->base, (params->convers[0] == 'X' ? 1 : 0));
 	}
@@ -113,12 +119,14 @@ void	ft_check_size_ll(t_printf *params, t_size *size, void *number)
 			params->check_num = -1;
 			size->ll = -size->ll;
 		}
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->ll, params->base, 0);
 	}
 	else if (!ft_strcmp(params->convers, "o") || !ft_strcmp(params->convers, "u")
 		|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
 	{
 		size->u_ll = (unsigned long long)number;
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->u_ll, 
 		params->base, (params->convers[0] == 'X' ? 1 : 0));
 	}
@@ -134,12 +142,14 @@ void	ft_check_size_j(t_printf *params, t_size *size, void *number)
 			params->check_num = -1;
 			size->j = -size->j;
 		}
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->j, params->base, 0);
 	}
 	else if (!ft_strcmp(params->convers, "o") || !ft_strcmp(params->convers, "u")
 		|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
 	{
 		size->u_j = (uintmax_t)number;
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->u_j, 
 		params->base, (params->convers[0] == 'X' ? 1 : 0));
 	}
@@ -155,12 +165,14 @@ void	ft_check_size_z(t_printf *params, t_size *size, void *number)
 			params->check_num = -1;
 			size->z = -size->z;
 		}
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->z, params->base, 0);
 	}
 	else if (!ft_strcmp(params->convers, "o") || !ft_strcmp(params->convers, "u")
 		|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
 	{
 		size->u_z = (size_t)number;
+		free(params->string);
 		params->string = ft_itoa_base((size_t)size->u_z, 
 		params->base, (params->convers[0] == 'X' ? 1 : 0));
 	}

@@ -59,6 +59,7 @@ static	char		ft_base(int num, int hex)
 static	char	*mk_str(size_t num, char *str, int base, int hex)
 {
 	char	*str1;
+	char	*str2;
 	int		check;
 
 	str1 = str;
@@ -77,7 +78,9 @@ static	char	*mk_str(size_t num, char *str, int base, int hex)
 		}
 	}
 	*str = '\0';
-	return (ft_strrev(str1));
+	str2 = ft_strrev(str1);
+	//free(str1);
+	return (str2);
 }
 
 char			*ft_itoa_base(size_t index, int base, int hex)

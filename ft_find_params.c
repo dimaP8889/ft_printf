@@ -139,12 +139,14 @@ int		ft_find_params(const char *string, t_printf *params)
 	}
 	while (ft_strchr(string, '%'))
 	{
-		
 		ft_pars(&string, params);
-		params->next = (t_printf *)malloc(sizeof(t_printf));
 		params->found_perc = 1;
-		params = params->next;
-		params->next = NULL;
+		if (ft_strchr(string, '%'))
+		{
+			params->next = (t_printf *)malloc(sizeof(t_printf));
+			params = params->next;
+			params->next = NULL;
+		}
 	}
 	return (1);
 }
