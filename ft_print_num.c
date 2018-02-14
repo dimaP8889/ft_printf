@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	ft_print_num(t_printf *params, t_size **size)
+void	ft_print_num(t_printf *params)
 {
 	int 	count;
 
@@ -33,5 +33,4 @@ void	ft_print_num(t_printf *params, t_size **size)
 	}
 	ft_putstr(params->out);
 	params->return_val = ft_strlen(params->out) + ft_strlen(params->print);
-	free(*size);
 }

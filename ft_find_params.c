@@ -30,7 +30,14 @@ char	*ft_strjoin_free(char **s1, char const *s2)
 char	*ft_find_flag(const char **string, t_printf *params)
 {
 	params->flag = ft_strnew(0);
-	while (ft_strchr(FLAGS, **string))
+	if (**string == ' ')
+	{
+		params->flag = ft_addletter(params->flag, **string);
+		(*string)++;
+	}
+	while (**string == ' ')
+		(*string)++;
+	while (ft_strchr(FLAGS, **string) && **string)
 	{
 		//params->flag = ft_strnew(0);
 		params->flag = ft_addletter(params->flag, **string);
@@ -44,6 +51,8 @@ char	*ft_find_flag(const char **string, t_printf *params)
 char	*ft_find_width(const char **string, t_printf *params)
 {
 	params->width_char = ft_strnew(0);
+	while (**string == ' ')
+		(*string)++;
 	while (ft_isdigit(**string))
 	{
 		params->width_char = ft_addletter(params->width_char, **string);
@@ -56,6 +65,8 @@ char	*ft_find_width(const char **string, t_printf *params)
 char	*ft_find_precision(const char **string, t_printf *params)
 {
 	params->precision_char = ft_strnew(0);
+	while (**string == ' ')
+		(*string)++;
 	if (**string == '.')
 	{
 		(*string)++;
@@ -74,9 +85,10 @@ char	*ft_find_size(const char **string, t_printf *params)
 	char	str;
 
 	params->size = ft_strnew(0);
-	if (ft_strchr(SIZES, **string))
+	while (**string == ' ')
+		(*string)++;
+	if (ft_strchr(SIZES, **string) && **string)
 	{
-		//params->size = ft_strnew(0);
 		str = **string;
 		params->size = ft_addletter(params->size, **string);
 		(*string)++;
@@ -92,9 +104,10 @@ char	*ft_find_size(const char **string, t_printf *params)
 char	*ft_find_convers(const char **string, t_printf *params)
 {
 	params->convers = ft_strnew(0);
-	if (ft_strchr(CONVERS, **string))
+	while (**string == ' ')
+		(*string)++;
+	if (ft_strchr(CONVERS, **string) && **string)
 	{
-		//params->convers = ft_strnew(0);
 		params->convers = ft_addletter(params->convers, **string);
 		(*string)++;
 	}
@@ -123,8 +136,31 @@ char	*ft_pars(const char **string, t_printf *params)
 	return (params->pars);
 }
 
-int		ft_find_params(const char *string, t_printf *params)
+void	ft_find_params(const char *string, t_printf *params)
 {
+	int ret;
+	t_printf *lol;
+
+	lol = params;
+	while (ft_strchr(string, '%'))
+	{
+		ft_set_params(params);
+		ft_pars(&string, params);
+		params->found_perc = 1;
+		if (ft_strchr(string, '%'))
+		{
+			params->next = (t_printf *)malloc(sizeof(t_printf));
+			params = params->next;
+			params->next = NULL;
+		}
+		else
+		{
+			ret = params->return_val;
+			params->next = (t_printf *)malloc(sizeof(t_printf));
+			params = params->next;
+			params->return_val = ret;
+		}
+	}
 	if (!ft_strchr(string, '%'))
 	{
 		params->print = ft_strnew(0);
@@ -135,18 +171,6 @@ int		ft_find_params(const char *string, t_printf *params)
 			(string)++;
 		}
 		params->print = ft_addletter(params->print, '\0');
-		return (0);
+		params->next = NULL;
 	}
-	while (ft_strchr(string, '%'))
-	{
-		ft_pars(&string, params);
-		params->found_perc = 1;
-		if (ft_strchr(string, '%'))
-		{
-			params->next = (t_printf *)malloc(sizeof(t_printf));
-			params = params->next;
-			params->next = NULL;
-		}
-	}
-	return (1);
 }

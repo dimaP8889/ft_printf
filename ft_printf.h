@@ -6,9 +6,9 @@
 # include <stdlib.h>
 #include <stdio.h>
 
-# define CONVERS "sSpdDioOuUxXcC%\0"
-# define FLAGS "#0-+ \0"
-# define SIZES "hljz\0"
+# define CONVERS "sSpdDioOuUxXcC%"
+# define FLAGS "#0-+ "
+# define SIZES "hljz"
 
 typedef struct			s_printf
 {
@@ -31,6 +31,7 @@ typedef struct			s_printf
 	int					check_zero;
 	int					move;
 	int 				tihs;
+	int 				first_str;
 	struct	s_printf	*next;
 }						t_printf;
 
@@ -64,22 +65,23 @@ typedef struct			s_size
 	ssize_t				z;
 }						t_size;
 
-int		ft_printf(const char *string, ...);
-int		ft_find_params(const char *string, t_printf *params);
-void	ft_converse(t_printf *params, void *string);
-char	*ft_strjoin_free(char **s1, char const *s2);
-char	*ft_itoa_base(size_t index, int base, int hex);
-void	ft_make_flag(t_printf *params);
-void	ft_check_size_l(t_printf *params, t_size *size, void *number);
-void	ft_check_size_h(t_printf *params, t_size *size, void *number);
-void	ft_check_size_hh(t_printf *params, t_size *size, void *number);
-void	ft_check_size_ll(t_printf *params, t_size *size, void *number);
-void	ft_check_size_j(t_printf *params, t_size *size, void *number);
-void	ft_check_size_z(t_printf *params, t_size *size, void *number);
-void	ft_make_out(t_printf *params);
-void	ft_check_no_size(t_printf *params, t_size *size, void *number);
-void	ft_check_size(t_printf *params, t_size *size, void *number);
-void	ft_print_num(t_printf *params, t_size **size);
-void	ft_make_unicode_char(t_printf *params, unsigned int symb);
+int						ft_printf(const char *string, ...);
+void					ft_find_params(const char *string, t_printf *params);
+void					ft_converse(t_printf *params, void *string);
+char					*ft_strjoin_free(char **s1, char const *s2);
+char					*ft_itoa_base(size_t index, int base, int hex);
+void					ft_make_flag(t_printf *params);
+void					ft_check_size_l(t_printf *params, t_size *size, void *number);
+void					ft_check_size_h(t_printf *params, t_size *size, void *number);
+void					ft_check_size_hh(t_printf *params, t_size *size, void *number);
+void					ft_check_size_ll(t_printf *params, t_size *size, void *number);
+void					ft_check_size_j(t_printf *params, t_size *size, void *number);
+void					ft_check_size_z(t_printf *params, t_size *size, void *number);
+void					ft_make_out(t_printf *params);
+void					ft_check_no_size(t_printf *params, t_size *size, void *number);
+void					ft_check_size(t_printf *params, t_size *size, void *number);
+void					ft_print_num(t_printf *params);
+void					ft_make_unicode_char(t_printf *params, unsigned int symb);
+void					ft_set_params(t_printf *params);
 
 #endif

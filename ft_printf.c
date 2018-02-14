@@ -2,35 +2,44 @@
 
 void	ft_free(t_printf *list)
 {
-	if (list->found_perc == 1)
+	while(list)
 	{
-		while (list)
-		{
-			free(list->pars);
-			free(list->print);
-			free(list->flag);
-			free(list->width_char);
-			free(list->precision_char);
-			free(list->size);
-			free(list->convers);
-			// printf("test\n");
-			free(list->string);
-			// //printf("test\n");
-			list->out_num = list->out_num - list->move;
-			list->out = list->out - list->tihs;
-			free(list->out);
-			//printf("%s\n", list->out_num);
-			free(list->out_num);
-			free(list);
-			list = list->next;
-		}
+		if (list->found_perc == 0)
+			break ;
+		free(list->pars);
+		free(list->print);
+		free(list->flag);
+		free(list->width_char);
+		free(list->precision_char);
+		free(list->size);
+		free(list->convers);
+		free(list->string);
+		list->out_num = list->out_num - list->move;
+		list->out = list->out - list->tihs;
+		free(list->out);
+		free(list->out_num);
+		free(list);
+		list = list->next;
+		
 	}
-	else
+	if (list->found_perc == 0)
 	{
-		//printf("print: %s\n", list->print);
 		free(list->print);
 		free(list);
 	}
+}
+
+void	ft_set_params(t_printf *params)
+{
+	params->width = 0;
+	params->precision = 0;
+	params->found_perc = 0;
+	params->base = 0;
+	params->check_num = 0;
+	params->return_val = 0;
+	params->check_zero = 0;
+	params->move = 0;
+	params->tihs = 0;
 }
 
 int		ft_find_base_flags(char c)
@@ -63,28 +72,38 @@ void	ft_sort_flags(t_printf *params)
 	}
 }
 
+// Сделать поиск по размеру
+
 int		ft_printf(const char *string, ...)
 {
 	va_list 		ap;
+	int				ret;
 	void			*s;
 	t_printf		*params;
 	t_printf		*list;
 
+	ret = 0;
 	params = (t_printf *)malloc(sizeof(t_printf));
-	params->next = NULL;
-	if (!ft_find_params(string, params))
-	{
-		ft_putstr(params->print);
-		return (ft_strlen(params->print));
-	}
-	
 	list = params;
-	ft_sort_flags(params);
+	params->next = NULL;
+	ft_find_params(string, params);
 	va_start(ap, string);
-	ft_putstr(params->print);
-	s = va_arg(ap, void*);
-	ft_converse(list, s);
+	while (params)
+	{
+		if (params->found_perc == 0)
+		{
+			ft_putstr(params->print);
+			ret = ret + ft_strlen(params->print) + params->first_str;
+			break;
+		}
+		ft_sort_flags(params);
+		ft_putstr(params->print);
+		s = va_arg(ap, void*);
+		ft_converse(params, s);
+		ret = ret + params->return_val + params->first_str;
+		params = params->next;
+	}
+	ft_free(list);
 	va_end(ap);
-	ft_free(params);
-	return (params->return_val);
+	return (ret);
 }

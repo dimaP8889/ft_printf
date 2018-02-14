@@ -152,7 +152,7 @@ void	ft_flag_plus(t_printf *params, t_flags_num *flag)
 
 void	ft_flag_space(t_printf *params, t_flags_num *flag)
 {
-	if (!ft_strchr(params->flag, '+') && !ft_strchr(params->convers, 'u'))
+	if (!ft_strchr(params->flag, '+') && !ft_strchr(params->convers, 'u') && !ft_strchr(params->convers, '%'))
 		flag->space = 1;
 }
 
@@ -160,9 +160,11 @@ void	ft_flag_minus(t_printf *params, t_flags_num *flag)
 {
 	char *str;
 
+	//printf("%s\n", params->out_num);
 	str = params->out;
 	params->out = params->out_num;
 	params->out_num = str;
+	//printf("%s\n", params->out_num);
 	ft_add_letter(params, flag);
 	ft_swap_letters(params, flag);
 	if (ft_strlen(params->out_num) != 0)

@@ -25,7 +25,7 @@ void	ft_make_two_bits(t_printf *params, unsigned int symb)
 	num2 = num2 | 192;
 	params->out_num = ft_addletter(params->out_num, num2);
 	params->out_num = ft_addletter(params->out_num, num1);
-	params->return_val = params->return_val + 3;
+	params->return_val = params->return_val + 2;
 }
 
 void	ft_make_three_bits(t_printf *params, unsigned int symb)
@@ -45,7 +45,7 @@ void	ft_make_three_bits(t_printf *params, unsigned int symb)
 	params->out_num = ft_addletter(params->out_num, num1);
 	params->out_num = ft_addletter(params->out_num, num2);
 	params->out_num = ft_addletter(params->out_num, num3);
-	params->return_val = params->return_val + 4;
+	params->return_val = params->return_val + 3;
 }
 
 void	ft_make_four_bits(t_printf *params, unsigned int symb)
@@ -70,7 +70,7 @@ void	ft_make_four_bits(t_printf *params, unsigned int symb)
 	params->out_num = ft_addletter(params->out_num, num2);
 	params->out_num = ft_addletter(params->out_num, num3);
 	params->out_num = ft_addletter(params->out_num, num4);
-	params->return_val = params->return_val + 5;
+	params->return_val = params->return_val + 4;
 }
 
 void	ft_make_unicode_char(t_printf *params, unsigned int symb)
@@ -78,7 +78,7 @@ void	ft_make_unicode_char(t_printf *params, unsigned int symb)
 	if (symb < 128)
 	{
 		params->out_num = ft_addletter(params->out_num, symb);
-		params->return_val += 2;
+		params->return_val += 1;
 	}
 	else if (symb < 2048)
 		ft_make_two_bits(params, symb);
