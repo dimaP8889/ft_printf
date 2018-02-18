@@ -27,9 +27,8 @@ char	*ft_strjoin_free(char **s1, char const *s2)
 }
 
 
-char	*ft_find_flag(const char **string, t_printf *params)
+void	ft_find_flag(const char **string, t_printf *params)
 {
-	params->flag = ft_strnew(0);
 	if (**string == ' ')
 	{
 		params->flag = ft_addletter(params->flag, **string);
@@ -39,18 +38,14 @@ char	*ft_find_flag(const char **string, t_printf *params)
 		(*string)++;
 	while (ft_strchr(FLAGS, **string) && **string)
 	{
-		//params->flag = ft_strnew(0);
-		params->flag = ft_addletter(params->flag, **string);
+		if (!ft_strchr(params->flag, **string))
+			params->flag = ft_addletter(params->flag, **string);
 		(*string)++;
-		if (ft_strchr(params->flag, **string))
-			break ;
 	}
-	return (params->flag);
 }
 
-char	*ft_find_width(const char **string, t_printf *params)
+void	ft_find_width(const char **string, t_printf *params)
 {
-	params->width_char = ft_strnew(0);
 	while (**string == ' ')
 		(*string)++;
 	while (ft_isdigit(**string))
@@ -59,12 +54,10 @@ char	*ft_find_width(const char **string, t_printf *params)
 		(*string)++;
 	}
 	params->width = ft_atoi(params->width_char);
-	return (params->width_char);
 }
 
-char	*ft_find_precision(const char **string, t_printf *params)
+void	ft_find_precision(const char **string, t_printf *params)
 {
-	params->precision_char = ft_strnew(0);
 	while (**string == ' ')
 		(*string)++;
 	if (**string == '.')
@@ -77,100 +70,186 @@ char	*ft_find_precision(const char **string, t_printf *params)
 			(*string)++;
 		}
 	}
-	return (params->precision_char);
+	params->precision_char++;
+	params->precision = ft_atoi(params->precision_char);
+	params->precision_char--;
 }
 
-char	*ft_find_size(const char **string, t_printf *params)
+int	check_size_base(const char *string)
 {
-	char	str;
+	int		count;
 
-	params->size = ft_strnew(0);
-	while (**string == ' ')
-		(*string)++;
-	if (ft_strchr(SIZES, **string) && **string)
+	count = 0;
+	while (SIZES[count] != string[0])
+		count++;
+	if ((string[0] == 'h') || (string[0] == 'l'))
 	{
-		str = **string;
-		params->size = ft_addletter(params->size, **string);
-		(*string)++;
-		if ((**string == 'h' && str == 'h') || (**string == 'l' && str == 'l'))
-		{
-			params->size = ft_addletter(params->size, **string);
-			(*string)++;
-		}
+		if (SIZES[count] == string[1])
+			count++;
 	}
-	return (params->size);
+	return (count);
 }
 
-char	*ft_find_convers(const char **string, t_printf *params)
+void	ft_find_size(const char **string, t_printf *params)
 {
-	params->convers = ft_strnew(0);
+
+	int		max;
+	int		base;
+
+	max = -1;
 	while (**string == ' ')
+		(*string)++;
+	while (ft_strchr(SIZES, **string) && **string)
+	{
+		base = check_size_base(*string);
+		if  (base > max)
+			max = base;
+		(*string)++;
+	}
+	if (max >= 0)
+	{
+		if (max == 0)
+			params->size = ft_addletter(params->size, 'h');
+		if (max == 1)
+		{
+			params->size = ft_addletter(params->size, 'h');
+			params->size = ft_addletter(params->size, 'h');
+		}
+		if (max == 2)
+			params->size = ft_addletter(params->size, 'l');
+		if (max == 3)
+		{
+			params->size = ft_addletter(params->size, 'l');
+			params->size = ft_addletter(params->size, 'l');
+		}
+		if (max == 4)
+			params->size = ft_addletter(params->size, 'j');
+		if (max == 5)
+			params->size = ft_addletter(params->size, 'z');
+	}
+}
+
+void	ft_find_convers(const char **string, t_printf *params)
+{
+	while (**string == ' ' && *string)
 		(*string)++;
 	if (ft_strchr(CONVERS, **string) && **string)
 	{
 		params->convers = ft_addletter(params->convers, **string);
 		(*string)++;
 	}
-	return (params->convers);
-}
-
-char	*ft_pars(const char **string, t_printf *params)
-{
-	params->print = ft_strnew(0);
-	while (**string != '%')
+	else if (**string)
 	{
-		params->print = ft_addletter(params->print, **string);
+		params->out_num = ft_addletter(params->out_num, **string);
 		(*string)++;
 	}
-	(*string)++;
-	params->pars = ft_strnew(0);
-	ft_strcpy(params->pars, "%");
-	params->pars = ft_strjoin_free(&params->pars, ft_find_flag(string, params));
-	params->pars = ft_strjoin_free(&params->pars, ft_find_width(string, params));
-	params->pars = ft_strjoin_free(&params->pars, ft_find_precision(string, params));
-	params->precision_char++;
-	params->precision = ft_atoi(params->precision_char);
-	params->precision_char--;
-	params->pars = ft_strjoin_free(&params->pars, ft_find_size(string, params));
-	params->pars = ft_strjoin_free(&params->pars, ft_find_convers(string, params));
-	return (params->pars);
+}
+
+void	ft_pars(const char **string, t_printf *params)
+{
+	while (!ft_strchr(CONVERS, **string) && **string)
+	{
+		if (ft_strchr(FLAGS, **string))
+			ft_find_flag(string, params);
+		else if (**string == '.')
+			ft_find_precision(string, params);
+		else if (ft_strchr(SIZES, **string))
+			ft_find_size(string, params);
+		else if (ft_isdigit((**string - 0)))
+			ft_find_width(string, params);
+		else
+			break ;
+	}
+	ft_find_convers(string, params);
 }
 
 void	ft_find_params(const char *string, t_printf *params)
 {
-	int ret;
-	t_printf *lol;
-
-	lol = params;
-	while (ft_strchr(string, '%'))
+	if (!ft_strcmp(string, "%"))
 	{
-		ft_set_params(params);
-		ft_pars(&string, params);
-		params->found_perc = 1;
-		if (ft_strchr(string, '%'))
-		{
-			params->next = (t_printf *)malloc(sizeof(t_printf));
-			params = params->next;
-			params->next = NULL;
-		}
-		else
-		{
-			ret = params->return_val;
-			params->next = (t_printf *)malloc(sizeof(t_printf));
-			params = params->next;
-			params->return_val = ret;
-		}
-	}
-	if (!ft_strchr(string, '%'))
-	{
-		params->print = ft_strnew(0);
 		params->found_perc = 0;
-		while (*string)
+		params->print = ft_strnew(0);
+		params->next = NULL;
+		return ;
+	}
+	if (*string != '%')
+	{
+		params->found_perc = 0;
+	 	params->print = ft_strnew(0);
+	 	while (*string && *string != '%')
 		{
 			params->print = ft_addletter(params->print, *string);
 			(string)++;
+			params->return_val++;
 		}
-		params->print = ft_addletter(params->print, '\0');
-		params->next = NULL;
+		if (*string == '%')
+		{
+			params->next = (t_printf *)malloc(sizeof(t_printf));
+			params = params->next;
+	 		params->next = NULL;
+		}
 	}
+	while (ft_strchr(string, '%'))
+	{
+		ft_set_params(params);
+		string++;
+		ft_pars(&string, params);
+		params->found_perc = 1;
+		while (*string && *string != '%')
+		{
+			params->print = ft_addletter(params->print, *string);
+			(string)++;
+			params->return_val++;
+		}
+		if (*string == '%')
+		{
+			params->next = (t_printf *)malloc(sizeof(t_printf));
+			params = params->next;
+	 		params->next = NULL;
+		}
+	}
+	// {
+	// while (**string != '%')
+	// {
+	// 	params->print = ft_addletter(params->print, **string);
+	// 	(*string)++;
+	// 	params->return_val++;
+	// }
+	// if (ft_strchr(string, '%'))
+	// {
+	// 	params->next = (t_printf *)malloc(sizeof(t_printf));
+	// 	params = params->next;
+	// 	params->next = NULL;
+	// }
+	// while (ft_strchr(string, '%'))
+	// {
+	// 	ft_set_params(params);
+	// 	ft_pars(&string, params);
+	// 	params->found_perc = 1;
+	// 	if (ft_strchr(string, '%'))
+	// 	{
+	// 		params->next = (t_printf *)malloc(sizeof(t_printf));
+	// 		params = params->next;
+	// 		params->next = NULL;
+	// 	}
+	// 	else
+	// 	{
+	// 		ret = params->return_val;
+	// 		params->next = (t_printf *)malloc(sizeof(t_printf));
+	// 		params = params->next;
+	// 		params->return_val = ret;
+	// 	}
+	// }
+	// if (!ft_strchr(string, '%') && )
+	// {
+	// 	params->print = ft_strnew(0);
+	// 	params->found_perc = 0;
+	// 	while (*string)
+	// 	{
+	// 		params->print = ft_addletter(params->print, *string);
+	// 		(string)++;
+	// 	}
+	// 	params->print = ft_addletter(params->print, '\0');
+	// 	params->next = NULL;
+	// }
 }

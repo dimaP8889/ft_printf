@@ -8,11 +8,10 @@
 
 # define CONVERS "sSpdDioOuUxXcC%"
 # define FLAGS "#0-+ "
-# define SIZES "hljz"
+# define SIZES "hhlljz"
 
 typedef struct			s_printf
 {
-	char				*pars;
 	int					width;
 	char				*width_char;
 	int					precision;
@@ -31,7 +30,8 @@ typedef struct			s_printf
 	int					check_zero;
 	int					move;
 	int 				tihs;
-	int 				first_str;
+	int 				this_is_funny_o_sharp;
+	int 				str_lenght;
 	struct	s_printf	*next;
 }						t_printf;
 
@@ -40,6 +40,7 @@ typedef struct			s_flags_num
 	int					sharp_X;
 	int					sharp_x;
 	int					sharp_o;
+	int 				sharp_p;
 	int					count_x;
 	int					plus;
 	int 				space;

@@ -34,6 +34,8 @@ void	ft_check_no_size(t_printf *params, t_size *size, void *number)
 	if (!ft_strcmp(params->convers, "d") || !ft_strcmp(params->convers, "i"))
 	{
 		size->i = (int)number;
+		if (!size->i)
+			params->check_zero = 1;
 		if (size->i == -2147483648)
 		{
 			params->check_num = -1;
@@ -54,12 +56,16 @@ void	ft_check_no_size(t_printf *params, t_size *size, void *number)
 			|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
 	{
 		size->u_i = (unsigned int)number;
+		if (!size->u_i)
+			params->check_zero = 1;
 		free(params->string);
 		params->string = ft_itoa_base((size_t)size->u_i, params->base, (params->convers[0] == 'X' ? 1 : 0));
 	}
 	else if (!ft_strcmp(params->convers, "p"))
 	{
 		size->l = (long)number;
+		if (!size->l)
+			params->check_zero = 1;
 		if (size->l < 0)
 		{
 			params->check_num = -1;
@@ -67,7 +73,7 @@ void	ft_check_no_size(t_printf *params, t_size *size, void *number)
 		}
 		free(params->string);
 		params->string = ft_itoa_base((size_t)size->l, params->base, 0);
-		params->flag[0] = '#';
+		params->flag = ft_addletter(params->flag, '#');
 	}
 }
 
@@ -97,6 +103,7 @@ void	ft_make_out(t_printf *params)
 			count_perc--;
 		}
 	params->out_num = ft_strjoin_free(&params->out_num, params->string);
+	//printf("%s\n", params->out_num);
 	ft_make_flag(params);
 }
 

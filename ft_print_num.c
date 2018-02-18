@@ -18,18 +18,20 @@ void	ft_print_num(t_printf *params)
 
 	count = 0;
 	params->out = ft_strjoin_free(&params->out, params->out_num);
-	if ((!ft_strcmp(params->precision_char, ".") || !ft_strcmp(params->precision_char, ".0")) && ft_atoi(params->string) == 0)
+	if (!params->precision && params->check_zero 
+	&& !params->this_is_funny_o_sharp && ft_strcmp(params->convers, "p"))
 	{
 		while (params->out[count] != '0')
 			count++;
-		params->out[count] = ' ';
-	}
-	if ((!ft_strcmp(params->precision_char, ".0") || !ft_strcmp(params->precision_char, ".0")) && ft_atoi(params->string) == 0)
-	{
-		while (params->out[count] != '0')
-			count++;
-		params->out++;
-		params->tihs = 1;
+		if (params->out[count - 1] == '+')
+			params->out[count] = '+';
+		else
+			params->out[count] = ' ';
+		if (params->width < 1)
+		{
+			params->out++;
+			params->tihs = 1;
+		}
 	}
 	ft_putstr(params->out);
 	params->return_val = ft_strlen(params->out) + ft_strlen(params->print);
