@@ -4,7 +4,6 @@
 # include "libft/includes/libft.h"
 # include <stdarg.h>
 # include <stdlib.h>
-#include <stdio.h>
 
 # define CONVERS "sSpdDioOuUxXcC%"
 # define FLAGS "#0-+ "
