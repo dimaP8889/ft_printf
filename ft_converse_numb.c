@@ -29,29 +29,32 @@ void	ft_check_size(t_printf *params, t_size *size, void *number)
 		ft_check_size_z(params, size, number);
 }
 
+void	ft_i_d_no_size(t_printf *params, t_size *size, void *number)
+{
+	size->i = (int)number;
+	if (!size->i)
+		params->check_zero = 1;
+	if (size->i == -2147483648)
+	{
+		params->check_num = -1;
+		params->string = ft_strjoin_free(&params->string, "2147483648");
+	}
+	else
+	{
+		if (size->i < 0)
+		{
+			params->check_num = -1;
+			size->i = -size->i;
+		}
+		free(params->string);
+		params->string = ft_itoa_base((size_t)size->i, params->base, 0);
+	}
+}
+
 void	ft_check_no_size(t_printf *params, t_size *size, void *number)
 {
 	if (!ft_strcmp(params->convers, "d") || !ft_strcmp(params->convers, "i"))
-	{
-		size->i = (int)number;
-		if (!size->i)
-			params->check_zero = 1;
-		if (size->i == -2147483648)
-		{
-			params->check_num = -1;
-			params->string = ft_strjoin_free(&params->string, "2147483648");
-		}
-		else
-		{
-			if (size->i < 0)
-			{
-				params->check_num = -1;
-				size->i = -size->i;
-			}
-			free(params->string);
-			params->string = ft_itoa_base((size_t)size->i, params->base, 0);
-		}
-	}
+		ft_i_d_no_size(params, size, number);
 	else if (!ft_strcmp(params->convers, "o") || !ft_strcmp(params->convers, "u")
 			|| !ft_strcmp(params->convers, "x") || !ft_strcmp(params->convers, "X"))
 	{
@@ -103,7 +106,6 @@ void	ft_make_out(t_printf *params)
 			count_perc--;
 		}
 	params->out_num = ft_strjoin_free(&params->out_num, params->string);
-	//printf("%s\n", params->out_num);
 	ft_make_flag(params);
 }
 

@@ -82,20 +82,29 @@ void	ft_sort_flags(t_printf *params)
 	}
 }
 
+void	ft_printf_params(t_printf *params, int *ret, va_list ap)
+{
+	void			*s;
+
+	s = NULL;
+	ft_sort_flags(params);
+	if (ft_strcmp(params->convers, "") && ft_strcmp(params->convers, "%"))
+		s = va_arg(ap, void*);
+	ft_converse(params, s);
+	ft_putstr(params->print);
+	*ret = *ret + params->return_val;
+}
+
 int		ft_printf(const char *string, ...)
 {
 	va_list 		ap;
 	int				ret;
-	void			*s;
 	t_printf		*params;
 	t_printf		*list;
 
-	ft_putstr_fd(string, 2);
-	ft_putstr_fd("\n", 2);
 	ret = 0;
 	if (!(params = (t_printf *)malloc(sizeof(t_printf))))
 		return (0);
-	params->next = NULL;
 	list = params;
 	ft_find_params(string, params);
 	va_start(ap, string);
@@ -107,12 +116,7 @@ int		ft_printf(const char *string, ...)
 	}
 	while (params)
 	{
-		ft_sort_flags(params);
-		if (ft_strcmp(params->convers, "") && ft_strcmp(params->convers, "%"))
-			s = va_arg(ap, void*);
-		ft_converse(params, s);
-		ft_putstr(params->print);
-		ret = ret + params->return_val;
+		ft_printf_params(params, &ret, ap);
 		params = params->next;
 	}
 	ft_free(list);

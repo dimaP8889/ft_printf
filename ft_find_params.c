@@ -90,22 +90,8 @@ int	check_size_base(const char *string)
 	return (count);
 }
 
-void	ft_find_size(const char **string, t_printf *params)
+void	ft_choose_size(int max, t_printf *params)
 {
-
-	int		max;
-	int		base;
-
-	max = -1;
-	while (**string == ' ')
-		(*string)++;
-	while (ft_strchr(SIZES, **string) && **string)
-	{
-		base = check_size_base(*string);
-		if  (base > max)
-			max = base;
-		(*string)++;
-	}
 	if (max >= 0)
 	{
 		if (max == 0)
@@ -127,6 +113,25 @@ void	ft_find_size(const char **string, t_printf *params)
 		if (max == 5)
 			params->size = ft_addletter(params->size, 'z');
 	}
+}
+
+void	ft_find_size(const char **string, t_printf *params)
+{
+
+	int		max;
+	int		base;
+
+	max = -1;
+	while (**string == ' ')
+		(*string)++;
+	while (ft_strchr(SIZES, **string) && **string)
+	{
+		base = check_size_base(*string);
+		if  (base > max)
+			max = base;
+		(*string)++;
+	}
+	ft_choose_size(max, params);
 }
 
 void	ft_find_convers(const char **string, t_printf *params)
@@ -163,32 +168,38 @@ void	ft_pars(const char **string, t_printf *params)
 	ft_find_convers(string, params);
 }
 
-void	ft_find_params(const char *string, t_printf *params)
+void	ft_before_perc(const char **string, t_printf **params)
 {
-	if (!ft_strcmp(string, "%"))
+	if (!ft_strcmp(*string, "%"))
 	{
-		params->found_perc = 0;
-		params->print = ft_strnew(0);
-		params->next = NULL;
+		(*params)->found_perc = 0;
+		(*params)->print = ft_strnew(0);
+		(*params)->next = NULL;
 		return ;
 	}
-	if (*string != '%')
+	if (**string != '%')
 	{
-		params->found_perc = 0;
-	 	params->print = ft_strnew(0);
-	 	while (*string && *string != '%')
+		(*params)->found_perc = 0;
+	 	(*params)->print = ft_strnew(0);
+	 	while (**string && **string != '%')
 		{
-			params->print = ft_addletter(params->print, *string);
-			(string)++;
-			params->return_val++;
+			(*params)->print = ft_addletter((*params)->print, **string);
+			(*string)++;
+			(*params)->return_val++;
 		}
-		if (*string == '%')
+		if (**string == '%')
 		{
-			params->next = (t_printf *)malloc(sizeof(t_printf));
-			params = params->next;
-	 		params->next = NULL;
+			(*params)->next = (t_printf *)malloc(sizeof(t_printf));
+			(*params) = (*params)->next;
+	 		(*params)->next = NULL;
 		}
 	}
+}
+
+void	ft_find_params(const char *string, t_printf *params)
+{
+	params->next = NULL;
+	ft_before_perc(&string, &params);
 	while (ft_strchr(string, '%'))
 	{
 		ft_set_params(params);

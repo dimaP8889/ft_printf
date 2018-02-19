@@ -79,7 +79,6 @@ static	char	*mk_str(size_t num, char *str, int base, int hex)
 	}
 	*str = '\0';
 	str2 = ft_strrev(str1);
-	//free(str1);
 	return (str2);
 }
 

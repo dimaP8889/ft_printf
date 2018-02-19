@@ -57,65 +57,76 @@ void	ft_converse_char(t_printf *params, void *number)
 	params->return_val += params->str_lenght;
 }
 
-void	ft_converse_string(t_printf *params, void *string)
+void	ft_cut_str(t_printf *params, int count_prec)
 {
-	unsigned int *str;
-	char *str1;
-	int	count_width;
-	int	count_prec;
-	int	change;
-	int	length;
-	int	count;
+	int				count;
 
+	count = 0;
+	while (params->out_num[count + 1])
+		count++;
+	while (count_prec++ <= 0)
+	{
+		params->out_num[count--] = '\0';
+		params->str_lenght--;
+	}
+}
+
+void	ft_l_converse_string(t_printf *params, void *string, int count_prec)
+{
+	unsigned int	*str;
+	int				change;
+	int				length;
+	int				count;
+
+	count = 0;
+	change = 0;
 	str = (unsigned int *)string;
+	while (*str && count_prec > 0)
+	{
+		length = params->str_lenght;
+		ft_make_unicode_char(params, *str);
+		if (ft_strcmp(params->precision_char, ""))
+		{
+			change = params->str_lenght - length;
+			count_prec -= change;
+		}
+		str++;
+	}
+	if (count_prec < 0)
+		ft_cut_str(params, count_prec);
+}
+
+void	ft_s_converse_string(t_printf *params, void *string, int count_prec)
+{
+	char *str1;
+
 	str1 = (char *)string;
 	if (!string)
 		str1 = ft_strjoin_free(&str1, "(null)");
-	change = 0;
+	while (count_prec > 0 && *str1)
+	{
+		params->out_num = ft_addletter(params->out_num, *str1);
+		str1++;
+		params->str_lenght++;
+		if (ft_strcmp(params->precision_char, ""))
+			count_prec--;
+	}
+}
+
+void	ft_converse_string(t_printf *params, void *string)
+{
+	int	count_width;
+	int	count_prec;
+
 	if (ft_strcmp(params->precision_char, ""))
 		count_prec = params->precision;
 	else
 		count_prec = 1;
 	if ((!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "S")) 
 	&& string)
-	{
-		while (*str && count_prec > 0)
-		{
-			length = params->str_lenght;
-			ft_make_unicode_char(params, *str);
-			if (ft_strcmp(params->precision_char, ""))
-			{
-				change = params->str_lenght - length;
-				count_prec -= change;
-			}
-			str++;
-		}
-		if (count_prec < 0)
-		{
-			count = 0;
-			while (params->out_num[count])
-				count++;
-			count--;
-			while (count_prec++ <= 0)
-			{
-				params->out_num[count--] = '\0';
-				params->str_lenght--;
-			}
-		}
-	}
+		ft_l_converse_string(params, string, count_prec);
 	else
-	{
-		
-		while (count_prec > 0 && *str1)
-		{
-			params->out_num = ft_addletter(params->out_num, *str1);
-			str1++;
-			params->str_lenght++;
-			if (ft_strcmp(params->precision_char, ""))
-				count_prec--;
-		}
-	}
-
+		ft_s_converse_string(params, string, count_prec);
 	count_width = params->width - params->str_lenght;
 	while (count_width-- >= 1)
 	{

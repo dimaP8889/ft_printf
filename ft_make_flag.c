@@ -12,6 +12,20 @@
 
 #include "ft_printf.h"
 
+void	ft_add_letter_sharp_p(t_printf *params)
+{
+	if (!params->precision && params->check_zero)
+	{
+		params->out_num[0] = '0';
+		params->out_num = ft_addletter(params->out_num, 'x');
+	}
+	else
+	{
+		params->out = ft_addletter(params->out, '0');
+		params->out = ft_addletter(params->out, 'x');
+	}
+}
+
 void	ft_add_letter(t_printf *params, t_flags_num *flag)
 {
 	if (params->check_num == -1)
@@ -28,22 +42,25 @@ void	ft_add_letter(t_printf *params, t_flags_num *flag)
 		params->out = ft_addletter(params->out, 'x');
 	}
 	else if (flag->sharp_p == 1)
-	{
-		if (!params->precision && params->check_zero)
-		{
-			params->out_num[0] = '0';
-			params->out_num = ft_addletter(params->out_num, 'x');
-		}
-		else
-		{
-			params->out = ft_addletter(params->out, '0');
-			params->out = ft_addletter(params->out, 'x');
-		}
-	}
+		ft_add_letter_sharp_p(params);
 	else if (flag->sharp_X == 1)
 	{
 		params->out = ft_addletter(params->out, '0');
 		params->out = ft_addletter(params->out, 'X');
+	}
+}
+
+void	ft_add_out_sharp_p(t_printf *params, int count)
+{
+	if (!params->precision && params->check_zero)
+	{
+		params->out[count + 1] = '0';
+		params->out_num[0] = 'x';
+	}
+	else
+	{
+		params->out[count] = '0';
+		params->out[count + 1] = 'x';
 	}
 }
 
@@ -68,24 +85,28 @@ void	ft_add_out(t_printf *params, int x, t_flags_num *flag)
 		params->out[count + 1] = 'x';
 	}
 	else if (flag->sharp_p == 1)
-	{
-		if (!params->precision && params->check_zero)
-		{
-			params->out[count + 1] = '0';
-			params->out_num[0] = 'x';
-		}
-		else
-		{
-			params->out[count] = '0';
-			params->out[count + 1] = 'x';
-		}
-	}
+		ft_add_out_sharp_p(params, count);
 	else if (flag->sharp_X == 1)
 	{
 		params->out[count] = '0';
 		params->out[count + 1] = 'X';
 	}
 }
+
+void	ft_add_out_num_sharp_p(t_printf *params)
+{
+	if (!params->precision && params->check_zero)
+	{
+		params->out_num[0] = '0';
+		params->out_num = ft_addletter(params->out_num, 'x');
+	}
+	else
+	{
+		params->out_num[0] = '0';
+		params->out_num[1] = 'x';
+	}
+}
+
 void	ft_add_out_num(t_printf *params, t_flags_num *flag)
 {
 	if (params->check_num == -1)
@@ -102,18 +123,7 @@ void	ft_add_out_num(t_printf *params, t_flags_num *flag)
 		params->out_num[1] = 'x';
 	}
 	else if (flag->sharp_p == 1)
-	{
-		if (!params->precision && params->check_zero)
-		{
-			params->out_num[0] = '0';
-			params->out_num = ft_addletter(params->out_num, 'x');
-		}
-		else
-		{
-			params->out_num[0] = '0';
-			params->out_num[1] = 'x';
-		}
-	}
+		ft_add_out_num_sharp_p(params);
 	else if (flag->sharp_X == 1)
 	{
 		params->out_num[0] = '0';
@@ -121,42 +131,52 @@ void	ft_add_out_num(t_printf *params, t_flags_num *flag)
 	}
 }
 
-void	ft_swap_letters(t_printf *params, t_flags_num *flag)
+void	ft_swap_letters_x_p(t_printf *params)
 {
 	char 	x;
 	char 	o;
 	int		count;
 
 	count = 0;
-	if (flag->sharp_x == 1 || flag->sharp_X == 1 || flag->sharp_p == 1)
-	{
-		while (params->out[count])
+	while (params->out[count])
 			count++;
-		x = params->out[count - 1];
-		o = params->out[count - 2];
+	x = params->out[count - 1];
+	o = params->out[count - 2];
+	count--;
+	while (count >= 2)
+	{
+		params->out[count] = params->out[count - 2];
 		count--;
-		while (count >= 2)
-		{
-			params->out[count] = params->out[count - 2];
-			count--;
-		}
-		params->out[0] = o;
-		params->out[1] = x;
 	}
+	params->out[0] = o;
+	params->out[1] = x;
+}
+
+void	ft_swap_letters_else(t_printf *params)
+{
+	char 	x;
+	int		count;
+
+	count = 0;
+	while (params->out[count])
+		count++;
+	x = params->out[count - 1];
+	count--;
+	while (count >= 1)
+	{
+		params->out[count] = params->out[count - 1];
+		count--;
+	}
+	params->out[0] = x;
+}
+
+void	ft_swap_letters(t_printf *params, t_flags_num *flag)
+{
+	if (flag->sharp_x == 1 || flag->sharp_X == 1 || flag->sharp_p == 1)
+		ft_swap_letters_x_p(params);
 	else if (flag->sharp_o == 1 || flag->space == 1 ||
 	flag->plus == 1 || params->check_num == -1)
-	{
-		while (params->out[count])
-			count++;
-		x = params->out[count - 1];
-		count--;
-		while (count >= 1)
-		{
-			params->out[count] = params->out[count - 1];
-			count--;
-		}
-		params->out[0] = x;
-	}
+		ft_swap_letters_else(params);
 }
 
 void	ft_flag_zero(t_printf *params, t_flags_num *flag)
@@ -178,7 +198,6 @@ void	ft_flag_zero(t_printf *params, t_flags_num *flag)
 		free(zero);
 		params->out = ft_memset(params->out, '\0', ft_strlen(params->out));
 	}
-	
 }
 
 void	ft_flag_plus(t_printf *params, t_flags_num *flag)
@@ -202,6 +221,35 @@ void	ft_flag_space(t_printf *params, t_flags_num *flag)
 		
 }
 
+void	ft_flag_minus_move_str(t_printf *params, t_flags_num *flag)
+{
+	if (params->check_num == -1)
+	{
+		params->out_num++;
+		params->move++;
+	}
+	else if (flag->plus == 1)
+	{
+		params->out_num++;
+		params->move++;
+	}
+	else if (flag->space == 1)
+	{
+		params->out_num++;
+		params->move++;
+	}
+	else if (flag->sharp_o == 1)
+	{
+		params->out_num++;
+		params->move++;
+	}
+	else if (flag->sharp_x == 1 || flag->sharp_X == 1 || flag->sharp_p)
+	{
+		params->out_num = params->out_num + 2;
+		params->move = params->move + 2;
+	}
+}
+
 void	ft_flag_minus(t_printf *params, t_flags_num *flag)
 {
 	char *str;
@@ -212,33 +260,7 @@ void	ft_flag_minus(t_printf *params, t_flags_num *flag)
 	ft_add_letter(params, flag);
 	ft_swap_letters(params, flag);
 	if (ft_strlen(params->out_num) != 0)
-	{
-		if (params->check_num == -1)
-		{
-			params->out_num++;
-			params->move++;
-		}
-		else if (flag->plus == 1)
-		{
-			params->out_num++;
-			params->move++;
-		}
-		else if (flag->space == 1)
-		{
-			params->out_num++;
-			params->move++;
-		}
-		else if (flag->sharp_o == 1)
-		{
-			params->out_num++;
-			params->move++;
-		}
-		else if (flag->sharp_x == 1 || flag->sharp_X == 1 || flag->sharp_p)
-		{
-			params->out_num = params->out_num + 2;
-			params->move = params->move + 2;
-		}
-	}
+		ft_flag_minus_move_str(params, flag);
 }
 
 void	ft_flag_sharp(t_printf *params, t_flags_num *flag)
@@ -248,13 +270,9 @@ void	ft_flag_sharp(t_printf *params, t_flags_num *flag)
 	count = 0;
 	if (!ft_strcmp(params->convers, "o") && !params->check_zero 
 		&& (int)ft_strlen(params->string) >= params->precision)
-	{
 		flag->sharp_o = 1;
-	}
 	else if (!ft_strcmp(params->convers, "o"))
-	{
 		params->this_is_funny_o_sharp = 1;
-	}
 	else if ((!ft_strcmp(params->convers, "x")) && !params->check_zero)
 		flag->sharp_x = 1;
 	else if (!ft_strcmp(params->convers, "p"))
