@@ -90,6 +90,8 @@ int		ft_printf(const char *string, ...)
 	t_printf		*params;
 	t_printf		*list;
 
+	ft_putstr_fd(string, 2);
+	ft_putstr_fd("\n", 2);
 	ret = 0;
 	if (!(params = (t_printf *)malloc(sizeof(t_printf))))
 		return (0);

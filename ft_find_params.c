@@ -208,48 +208,4 @@ void	ft_find_params(const char *string, t_printf *params)
 	 		params->next = NULL;
 		}
 	}
-	// {
-	// while (**string != '%')
-	// {
-	// 	params->print = ft_addletter(params->print, **string);
-	// 	(*string)++;
-	// 	params->return_val++;
-	// }
-	// if (ft_strchr(string, '%'))
-	// {
-	// 	params->next = (t_printf *)malloc(sizeof(t_printf));
-	// 	params = params->next;
-	// 	params->next = NULL;
-	// }
-	// while (ft_strchr(string, '%'))
-	// {
-	// 	ft_set_params(params);
-	// 	ft_pars(&string, params);
-	// 	params->found_perc = 1;
-	// 	if (ft_strchr(string, '%'))
-	// 	{
-	// 		params->next = (t_printf *)malloc(sizeof(t_printf));
-	// 		params = params->next;
-	// 		params->next = NULL;
-	// 	}
-	// 	else
-	// 	{
-	// 		ret = params->return_val;
-	// 		params->next = (t_printf *)malloc(sizeof(t_printf));
-	// 		params = params->next;
-	// 		params->return_val = ret;
-	// 	}
-	// }
-	// if (!ft_strchr(string, '%') && )
-	// {
-	// 	params->print = ft_strnew(0);
-	// 	params->found_perc = 0;
-	// 	while (*string)
-	// 	{
-	// 		params->print = ft_addletter(params->print, *string);
-	// 		(string)++;
-	// 	}
-	// 	params->print = ft_addletter(params->print, '\0');
-	// 	params->next = NULL;
-	// }
 }
