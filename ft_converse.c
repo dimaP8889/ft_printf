@@ -78,7 +78,7 @@ void	ft_converse_string(t_printf *params, void *string)
 	else
 		count_prec = 1;
 	if ((!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "S")) 
-	&& MB_CUR_MAX == 4 && string)
+	&& string)
 	{
 		while (*str && count_prec > 0)
 		{
@@ -117,7 +117,7 @@ void	ft_converse_string(t_printf *params, void *string)
 		}
 	}
 
-	count_width = params->width - params->str_lenght;// - //ft_strlen((const char *)string);
+	count_width = params->width - params->str_lenght;
 	while (count_width-- >= 1)
 	{
 		params->out = ft_addletter(params->out, ' ');
@@ -125,19 +125,16 @@ void	ft_converse_string(t_printf *params, void *string)
 	}
 
 	ft_make_flag(params);
-	// printf("%s\n", params->out);
-	// printf("%s\n", params->out_num);
 	params->out = ft_strjoin_free(&params->out, params->out_num);
 	ft_putstr(params->out);
 	params->return_val = params->str_lenght + params->return_val;
-	//printf("%i\n", params->return_val);
 }
 
 void	ft_converse_per(t_printf *params)
 {
 	int	count;
 
-	count = params->width;// - params->return_val;
+	count = params->width;
 	while (count-- > 1)
 	{
 		params->out = ft_addletter(params->out, ' ');
