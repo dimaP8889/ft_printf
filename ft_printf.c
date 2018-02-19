@@ -112,7 +112,7 @@ int		ft_printf(const char *string, ...)
 		ret = ret + params->return_val;
 		params = params->next;
 	}
-	//ft_free(list);
+	ft_free(list);
 	va_end(ap);
 	return (ret);
 }
