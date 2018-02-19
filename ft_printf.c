@@ -95,7 +95,6 @@ int		ft_printf(const char *string, ...)
 	params->next = NULL;
 	list = params;
 	ft_find_params(string, params);
-	// printf("%s\n", params->print);
 	va_start(ap, string);
 	if (params->found_perc == 0)
 	{
@@ -103,7 +102,6 @@ int		ft_printf(const char *string, ...)
 		ret = ret + ft_strlen(params->print);
 		params = params->next;
 	}
-	//printf("%i\n", ret);
 	while (params)
 	{
 		ft_sort_flags(params);
@@ -111,7 +109,7 @@ int		ft_printf(const char *string, ...)
 			s = va_arg(ap, void*);
 		ft_converse(params, s);
 		ft_putstr(params->print);
-		ret = ret + params->return_val; //+ ft_strlen(params->print);
+		ret = ret + params->return_val;
 		params = params->next;
 	}
 	ft_free(list);

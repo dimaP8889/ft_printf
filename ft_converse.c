@@ -33,9 +33,10 @@ void	ft_converse_char(t_printf *params, void *number)
 {
 	int	count;
 
-
-	if (!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "C"))
+	if ((!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "C")) && MB_CUR_MAX == 4)
+	{
 		ft_make_unicode_char(params, (unsigned int)number);
+	}
 	else
 	{
 		params->str_lenght = params->str_lenght + 1;
@@ -60,27 +61,24 @@ void	ft_converse_char(t_printf *params, void *number)
 void	ft_converse_string(t_printf *params, void *string)
 {
 	unsigned int *str;
-	unsigned char *str1;
+	char *str1;
 	int	count_width;
 	int	count_prec;
 	int	change;
 	int	length;
 	int	count;
 
-	if (!string && !ft_strcmp(params->precision_char, ""))
-	{
-		ft_putstr("(null)");
-		params->return_val += 6;
-		return ;
-	}
 	str = (unsigned int *)string;
-	str1 = (unsigned char *)string;
+	str1 = (char *)string;
+	if (!string)
+		str1 = ft_strjoin_free(&str1, "(null)");
 	change = 0;
 	if (ft_strcmp(params->precision_char, ""))
 		count_prec = params->precision;
 	else
 		count_prec = 1;
-	if (!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "S"))
+	if ((!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "S")) 
+	&& MB_CUR_MAX == 4 && string)
 	{
 		while (*str && count_prec > 0)
 		{
