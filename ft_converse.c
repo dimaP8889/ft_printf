@@ -15,7 +15,8 @@ void	ft_converse_numb(t_printf *params, void *number)
 {
 	t_size		*size;
 
-	size = (t_size *)malloc(sizeof(t_size));
+	if (!(size = (t_size *)malloc(sizeof(t_size))))
+		return ;
 	params->check_num = 1;
 	params->base = ft_find_base(params);
 	if ((ft_strcmp(params->size, "") || !ft_strcmp(params->convers, "D") 
@@ -34,9 +35,7 @@ void	ft_converse_char(t_printf *params, void *number)
 	int	count;
 
 	if ((!ft_strcmp(params->size, "l") || !ft_strcmp(params->convers, "C")) && MB_CUR_MAX == 4)
-	{
 		ft_make_unicode_char(params, (unsigned int)number);
-	}
 	else
 	{
 		params->str_lenght = params->str_lenght + 1;
@@ -123,7 +122,6 @@ void	ft_converse_string(t_printf *params, void *string)
 		params->out = ft_addletter(params->out, ' ');
 		params->return_val++;
 	}
-
 	ft_make_flag(params);
 	params->out = ft_strjoin_free(&params->out, params->out_num);
 	ft_putstr(params->out);
@@ -154,10 +152,7 @@ void ft_no_converse(t_printf *params)
 	count_width = 0;
 	count_width = params->width;
 	while (count_width-- > 1)
-	{
 		params->out = ft_addletter(params->out, ' ');
-		//params->return_val++;
-	}
 	ft_make_flag(params);
 	params->out = ft_strjoin_free(&params->out, params->out_num);
 	params->return_val = ft_strlen(params->out) + ft_strlen(params->print);;

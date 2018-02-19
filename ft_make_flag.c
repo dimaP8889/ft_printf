@@ -299,7 +299,8 @@ void	ft_make_flag(t_printf *params)
 {
 	t_flags_num *flag;
 
-	flag = (t_flags_num*)malloc(sizeof(t_flags_num));
+	if (!(flag = (t_flags_num*)malloc(sizeof(t_flags_num))))
+		return ;
 	ft_set_flags(flag);
 	params->move = 0;
 	if (ft_strchr(params->flag, '0'))

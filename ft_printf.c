@@ -91,7 +91,8 @@ int		ft_printf(const char *string, ...)
 	t_printf		*list;
 
 	ret = 0;
-	params = (t_printf *)malloc(sizeof(t_printf));
+	if (!(params = (t_printf *)malloc(sizeof(t_printf))))
+		return (0);
 	params->next = NULL;
 	list = params;
 	ft_find_params(string, params);
