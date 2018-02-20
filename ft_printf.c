@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-void	ft_free(t_printf *list)
+static void	ft_free(t_printf *list)
 {
 	while (list)
 	{
@@ -28,31 +28,7 @@ void	ft_free(t_printf *list)
 	}
 }
 
-void	ft_set_params(t_printf *params)
-{
-	params->width = 0;
-	params->precision = -1;
-	params->found_perc = 0;
-	params->base = 0;
-	params->check_num = 0;
-	params->return_val = 0;
-	params->check_zero = 0;
-	params->move = 0;
-	params->tihs = 0;
-	params->this_is_funny_o_sharp = 0;
-	params->str_lenght = 0;
-	params->flag = ft_strnew(0);
-	params->convers = ft_strnew(0);
-	params->size = ft_strnew(0);
-	params->precision_char = ft_strnew(0);
-	params->width_char = ft_strnew(0);
-	params->print = ft_strnew(0);
-	params->string = ft_strnew(0);
-	params->out = ft_strnew(0);
-	params->out_num = ft_strnew(0);
-}
-
-int		ft_find_base_flags(char c)
+static int		ft_find_base_flags(char c)
 {
 	int		num;
 	char 	*base;
@@ -64,7 +40,7 @@ int		ft_find_base_flags(char c)
 	return (num);
 }
 
-void	ft_sort_flags(t_printf *params)
+static void	ft_sort_flags(t_printf *params)
 {
 	int		count_flags;
 	char 	flag;
@@ -82,7 +58,7 @@ void	ft_sort_flags(t_printf *params)
 	}
 }
 
-void	ft_printf_params(t_printf *params, int *ret, va_list ap)
+static void	ft_printf_params(t_printf *params, int *ret, va_list ap)
 {
 	void			*s;
 

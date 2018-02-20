@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	ft_make_two_bits(t_printf *params, unsigned int symb)
+static void	ft_make_two_bits(t_printf *params, unsigned int symb)
 {
 	unsigned int num1;
 	unsigned int num2;
@@ -28,7 +28,7 @@ void	ft_make_two_bits(t_printf *params, unsigned int symb)
 	params->str_lenght = params->str_lenght + 2;
 }
 
-void	ft_make_three_bits(t_printf *params, unsigned int symb)
+static void	ft_make_three_bits(t_printf *params, unsigned int symb)
 {
 	unsigned int num1;
 	unsigned int num2;
@@ -48,7 +48,7 @@ void	ft_make_three_bits(t_printf *params, unsigned int symb)
 	params->str_lenght = params->str_lenght + 3;
 }
 
-void	ft_make_four_bits(t_printf *params, unsigned int symb)
+static void	ft_make_four_bits(t_printf *params, unsigned int symb)
 {
 	unsigned int num1;
 	unsigned int num2;

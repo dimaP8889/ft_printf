@@ -16,9 +16,13 @@ NAME = libftprintf.a
 FLAGS = -Wall -Wextra -Werror
 MAIN = tests_num.c
 SRC = ft_printf.c ft_find_params.c ft_converse.c ft_itoa_base.c ft_converse_numb.c \
-ft_make_flag.c ft_print_num.c ft_sizes.c ft_make_unicode_char.c
+ft_make_flag.c ft_print_num.c ft_sizes_l_z.c ft_make_unicode_char.c ft_pars.c ft_pars_extra_f.c \
+ft_converse_extra_f.c ft_sizes_h_hh.c ft_make_flag_minus.c ft_make_flag_minus_adl.c \
+ft_finish_flags.c ft_set_flags.c
 OBJ = ft_printf.o ft_find_params.o ft_converse.o ft_itoa_base.o ft_converse_numb.o \
-ft_make_flag.o ft_print_num.o ft_sizes.o ft_make_unicode_char.o 
+ft_make_flag.o ft_print_num.o ft_sizes_l_z.o ft_make_unicode_char.o ft_pars.o ft_pars_extra_f.o \
+ft_converse_extra_f.o ft_sizes_h_hh.o ft_make_flag_minus.o ft_make_flag_minus_adl.o \
+ft_finish_flags.o ft_set_flags.o
 HEADER = ft_printf.h
 
 all: $(NAME)
@@ -37,9 +41,3 @@ fclean: clean
 	$(MAKE) -C libft fclean
 
 re: fclean all
-
-comp:
-	$(CC) $(FLAGS) -o $(NAME_L) $(MAIN) $(SRC) $(NAME) -I ft_printf.h
-
-cc:
-	rm -rf $(NAME_L)

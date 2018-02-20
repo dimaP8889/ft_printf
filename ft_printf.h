@@ -4,6 +4,7 @@
 # include "libft/includes/libft.h"
 # include <stdarg.h>
 # include <stdlib.h>
+#include <stdio.h>
 
 # define CONVERS "sSpdDioOuUxXcC%"
 # define FLAGS "#0-+ "
@@ -82,6 +83,18 @@ void					ft_check_no_size(t_printf *params, t_size *size, void *number);
 void					ft_check_size(t_printf *params, t_size *size, void *number);
 void					ft_print_num(t_printf *params);
 void					ft_make_unicode_char(t_printf *params, unsigned int symb);
-void					ft_set_params(t_printf *params);
+void					ft_pars(const char **string, t_printf *params);
+void					ft_find_convers(const char **string, t_printf *params);
+void					ft_choose_size(int max, t_printf *params);
+int						check_size_base(const char *string);
+void 					ft_no_converse(t_printf *params);
+void					ft_s_converse_string(t_printf *params, void *string, int count_prec);
+void					ft_l_converse_string(t_printf *params, void *string, int count_prec);
+void					ft_cut_str(t_printf *params, int count_prec);
+int						ft_find_base(t_printf *params);
+void					ft_add_letter(t_printf *params, t_flags_num *flag);
+void					ft_flag_minus(t_printf *params, t_flags_num *flag);
+void					ft_finish_flags(t_printf *params, t_flags_num *flag);
+void					ft_set_flags(t_flags_num *flag);
 
 #endif

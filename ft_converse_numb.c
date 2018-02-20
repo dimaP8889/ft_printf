@@ -29,7 +29,7 @@ void	ft_check_size(t_printf *params, t_size *size, void *number)
 		ft_check_size_z(params, size, number);
 }
 
-void	ft_i_d_no_size(t_printf *params, t_size *size, void *number)
+static void	ft_i_d_no_size(t_printf *params, t_size *size, void *number)
 {
 	size->i = (int)number;
 	if (!size->i)
